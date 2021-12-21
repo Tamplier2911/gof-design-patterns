@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "name": "C#",
+            "path": "./csharp"
+        },
+        {
+            "name": "GO",
+            "path": "./golang"
+        },
+    ],
+    "settings": {}
+}
