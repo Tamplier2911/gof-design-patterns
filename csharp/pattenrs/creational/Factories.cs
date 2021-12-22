@@ -14,27 +14,35 @@ namespace Patterns
     // Object creation (non-piecewise, unlike Builder) can be outsourced to:
     // - separate function (Factory Method)
     // - separate class (Factory)
-    // - ca be hierarchy of factories (Abstract Factory)
-    class FactoryMethod
+    // - can be hierarchy of factories (Abstract Factory)
+    class Factories
     {
         public static void Run()
         {
-            Console.WriteLine("Factory Method");
+            Console.WriteLine("Factories");
 
-            // regular way
-            var p0 = new Point(5, 5, CoordinateSystemType.Cortesian);
+            // factory method
+            var p1 = PointFactoryMethod.NewCartisianPoint(5.0, 5.0);
+            var p2 = PointFactoryMethod.NewPolarPoint(1.0, Math.PI / 2);
 
-            // using factory method
-            var p1 = PointFM.NewCartisianPoint(5.0, 5.0);
-            var p2 = PointFM.NewPolarPoint(1.0, Math.PI / 2);
-
-            // using async factory method
-            // var n = await Note.CreateAsync();
-            // Note.CreateAsync().Wait();
-
-            // using factory
+            // factory
             var p3 = PointFactory.NewCartisianPoint(5.0, 5.0);
             var p4 = PointFactory.NewPolarPoint(1.0, Math.PI / 2);
+
+            // inner factory
+            var p5 = PointInnerFactory.Factory.NewCartisianPoint(5.0, 5.0);
+            var p6 = PointInnerFactory.Factory.NewPolarPoint(1.0, Math.PI / 2);
+
+            // abstract factory
+            var hdm = new HotDrinkMachine();
+            var coffee = hdm.MakeDrink(HotDrinkMachine.AvailableDrink.Coffee, "cappuccino");
+            var tea = hdm.MakeDrink(HotDrinkMachine.AvailableDrink.Tea, "green tea");
+            coffee.Consume();
+            tea.Consume();
+
+            // async factory method
+            // var n = await Note.CreateAsync();
+            // Note.CreateAsync().Wait();
 
             // object tracking
             var ttf = new TrackingThemeFactory();
@@ -52,49 +60,19 @@ namespace Patterns
         }
     }
 
-    // CoordinateSystemType - represents coordinate system type enum.
-    public enum CoordinateSystemType
-    {
-        Cortesian,
-        Polar
-    }
-
-    // Point - represents point of coordinate (regular way).
-    class Point
-    {
-        private double x, y;
-
-        public Point(double x, double y, CoordinateSystemType s = CoordinateSystemType.Cortesian)
-        {
-            switch (s)
-            {
-                case CoordinateSystemType.Cortesian:
-                    this.x = x; // rho
-                    this.y = y; // theta
-                    break;
-                case CoordinateSystemType.Polar:
-                    x = x * Math.Cos(y);
-                    y = x * Math.Sin(y);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(s), s, null);
-            }
-        }
-    }
-
     // 
 
     // Factory Method
 
     //
 
-    // PointFM - represents point of coordinate (using factory method).
-    class PointFM
+    // PointFactoryMethod - represents point (using factory method).
+    class PointFactoryMethod
     {
         private double x, y;
 
-        // constructor is now private
-        private PointFM(double x, double y)
+        // constructors usually 'private' with factory methods
+        private PointFactoryMethod(double x, double y)
         {
             this.x = x;
             this.y = y;
@@ -104,15 +82,162 @@ namespace Patterns
         // - same argument types, different discripting names
 
         // NewCartisianPoint - is a factory method, which is a wrapper around constructor.
-        public static PointFM NewCartisianPoint(double x, double y)
+        public static PointFactoryMethod NewCartisianPoint(double x, double y)
         {
-            return new PointFM(x, y);
+            return new PointFactoryMethod(x, y);
         }
 
         // NewPolarPoint - is factory method, which is a wrapper around constructor.
-        public static PointFM NewPolarPoint(double rho, double theta)
+        public static PointFactoryMethod NewPolarPoint(double rho, double theta)
         {
-            return new PointFM(rho * Math.Cos(theta), rho * Math.Sin(theta));
+            return new PointFactoryMethod(rho * Math.Cos(theta), rho * Math.Sin(theta));
+        }
+    }
+
+    // 
+
+    // Factory
+
+    // Motivation: separation of concerns (object construction and object behaviour)
+
+    // 
+
+    // Point - represents point.
+    class Point
+    {
+        private double x, y;
+
+        internal Point(double x, double y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    // PointFactory - represents point construction factory.
+    class PointFactory
+    {
+        // NewCartisianPoint - is a factory method, which is a wrapper around constructor.
+        public static Point NewCartisianPoint(double x, double y)
+        {
+            return new Point(x, y);
+        }
+
+        // NewPolarPoint - is factory method, which is a wrapper around constructor.
+        public static Point NewPolarPoint(double rho, double theta)
+        {
+            return new Point(rho * Math.Cos(theta), rho * Math.Sin(theta));
+        }
+    }
+
+    //
+
+    // Inner Factory
+
+    // Motivation: if class constraint should be private, it may contain inner factory
+
+    //
+
+    // PointInnerFactory - represents point with Inner Factory.
+    class PointInnerFactory
+    {
+        private double x, y;
+
+        private PointInnerFactory(double x, double y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+        // Factory - implements point Inner Factory.
+        public static class Factory
+        {
+            public static PointInnerFactory NewCartisianPoint(double x, double y)
+            {
+                return new PointInnerFactory(x, y);
+            }
+
+            public static PointInnerFactory NewPolarPoint(double rho, double theta)
+            {
+                return new PointInnerFactory(rho * Math.Cos(theta), rho * Math.Sin(theta));
+            }
+        }
+    }
+
+    // 
+
+    // Abstract Factory - returns abstract classes or interfaces
+
+    // Motivation: group object factories that have a common theme.
+
+    //
+
+    // IHotDrink - represents hot drink.
+    public interface IHotDrink
+    {
+        void Consume();
+    }
+
+    // Tea - represents tea.
+    internal class Tea : IHotDrink
+    {
+        private string Kind;
+        internal Tea(string kind) { Kind = kind; }
+        public void Consume() { Console.WriteLine($"consuming drink: {Kind}"); }
+    }
+
+    // Coffee - represents coffee.
+    internal class Coffee : IHotDrink
+    {
+        private string Kind;
+        internal Coffee(string kind) { Kind = kind; }
+        public void Consume() { Console.WriteLine($"consuming drink: {Kind}"); }
+    }
+
+    // IHotDrinkFactory - represents hot drink abstract factory.
+    interface IHotDrinkFactory
+    {
+        IHotDrink Prepare(string kind);
+    }
+
+    // TeaFactory - represent tea factory.
+    internal class TeaFactory : IHotDrinkFactory
+    {
+        public IHotDrink Prepare(string kind)
+        {
+            return new Tea(kind);
+        }
+    }
+
+    // CoffeeFactory - represent coffee factory.
+    internal class CoffeeFactory : IHotDrinkFactory
+    {
+        public IHotDrink Prepare(string kind)
+        {
+            return new Coffee(kind);
+        }
+    }
+
+    // HotDrinkMachine - hot drink abstract factory.
+    public class HotDrinkMachine
+    {
+        public enum AvailableDrink { Coffee, Tea }
+        private Dictionary<AvailableDrink, IHotDrinkFactory> factories = new();
+
+        public HotDrinkMachine()
+        {
+            foreach (AvailableDrink drink in Enum.GetValues(typeof(AvailableDrink)))
+            {
+                var factory = (IHotDrinkFactory)Activator.CreateInstance(
+                    Type.GetType("Patterns." + Enum.GetName(typeof(AvailableDrink), drink) + "Factory")!
+                )!;
+                factories.Add(drink, factory);
+            }
+        }
+
+        public IHotDrink MakeDrink(AvailableDrink drink, string kind)
+        {
+            return factories[drink].Prepare(kind);
         }
     }
 
@@ -149,30 +274,6 @@ namespace Patterns
 
             // perform task creation
             return n.InitAsync();
-        }
-    }
-
-    // 
-
-    // Factory
-
-    // Motivation: separation of concerns (object construction and object behaviour)
-
-    // 
-
-    // PointFactory - represents point of coordinate construction factory.
-    class PointFactory
-    {
-        // NewCartisianPoint - is a factory method, which is a wrapper around constructor.
-        public static Point NewCartisianPoint(double x, double y)
-        {
-            return new Point(x, y, CoordinateSystemType.Cortesian);
-        }
-
-        // NewPolarPoint - is factory method, which is a wrapper around constructor.
-        public static Point NewPolarPoint(double rho, double theta)
-        {
-            return new Point(rho * Math.Cos(theta), rho * Math.Sin(theta), CoordinateSystemType.Polar);
         }
     }
 

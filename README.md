@@ -2,6 +2,8 @@
 
 GOF Design Patterns implementation in variety of programming languages.
 
+![gof-dp](https://github.com/Tamplier2911/gof-design-patterns/blob/main/assets/gof-design-patterns.jpg?raw=true)
+
 ### SOLID - principles
 
 1. Single Responsibility

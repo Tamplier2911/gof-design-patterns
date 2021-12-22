@@ -8,8 +8,7 @@ namespace Patterns
         public static void Run()
         {
             Builder.Run();
-            FactoryMethod.Run();
-            AbstractFactory.Run();
+            Factories.Run();
         }
     }
 
