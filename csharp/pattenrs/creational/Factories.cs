@@ -35,10 +35,8 @@ namespace Patterns
 
             // abstract factory
             var hdm = new HotDrinkMachine();
-            var coffee = hdm.MakeDrink(HotDrinkMachine.AvailableDrink.Coffee, "cappuccino");
-            var tea = hdm.MakeDrink(HotDrinkMachine.AvailableDrink.Tea, "green tea");
-            coffee.Consume();
-            tea.Consume();
+            // var drink = hdm.MakeDrink();
+            // drink.Consume();
 
             // async factory method
             // var n = await Note.CreateAsync();
@@ -221,23 +219,38 @@ namespace Patterns
     // HotDrinkMachine - hot drink abstract factory.
     public class HotDrinkMachine
     {
-        public enum AvailableDrink { Coffee, Tea }
-        private Dictionary<AvailableDrink, IHotDrinkFactory> factories = new();
+        private List<(string, IHotDrinkFactory)> factories = new();
 
         public HotDrinkMachine()
         {
-            foreach (AvailableDrink drink in Enum.GetValues(typeof(AvailableDrink)))
+            foreach (var type in typeof(HotDrinkMachine).Assembly.GetTypes())
             {
-                var factory = (IHotDrinkFactory)Activator.CreateInstance(
-                    Type.GetType("Patterns." + Enum.GetName(typeof(AvailableDrink), drink) + "Factory")!
-                )!;
-                factories.Add(drink, factory);
+                // if type is assignable and not interface by it self
+                if (typeof(IHotDrinkFactory).IsAssignableFrom(type) && !type.IsInterface)
+                {
+                    factories.Add((type.Name.Replace("Factory", string.Empty), (IHotDrinkFactory)Activator.CreateInstance(type)!));
+                }
             }
         }
 
-        public IHotDrink MakeDrink(AvailableDrink drink, string kind)
+        public IHotDrink MakeDrink()
         {
-            return factories[drink].Prepare(kind);
+            Console.WriteLine("Available Drinks");
+            for (int i = 0; i < factories.Count; i++)
+            {
+                Console.WriteLine($"{i}: {factories[i].Item1}");
+            }
+
+            while (true)
+            {
+                string s;
+                // input is not null, integer, greater than 0 and less than max available drinks
+                if ((s = Console.ReadLine()!) != null && int.TryParse(s, out int i) && i >= 0 && i < factories.Count)
+                {
+                    return factories[i].Item2.Prepare(factories[i].Item1);
+                }
+                Console.WriteLine("Incorrect input, please try again!");
+            }
         }
     }
 

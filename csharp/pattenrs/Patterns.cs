@@ -9,6 +9,7 @@ namespace Patterns
         {
             Builder.Run();
             Factories.Run();
+            Prototype.Run();
         }
     }
 
