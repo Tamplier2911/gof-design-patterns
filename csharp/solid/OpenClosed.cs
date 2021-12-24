@@ -78,7 +78,6 @@ namespace Solid
     // ProductFilter - concerned about filtering products by certain criteria.
     public class ProductFiler
     {
-
         // Coming back to modify filter class every time business rules change would violate Open-Closed principle.
 
         // Filter products by size.
