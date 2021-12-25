@@ -12,14 +12,33 @@ namespace Patterns
         {
             Console.WriteLine("Prototype");
 
-            // problems of shallow clone with IClonable
-            var pj = new Person(new[] { "John", "Smith" }, new Address("City", "Street", 123));
-            var pv = (Person)pj.Clone();
-            pv.Names[0] = "Violet";
-            pv.Address.House = 321; // copied reference when cloned
-            Console.WriteLine(pj);
-            Console.WriteLine(pv);
+            // shallow clone with IClonable
+            var pa = new Person(new[] { "John", "Smith" }, new Address("City", "Street", 123));
+            var pb = (Person)pa.Clone();
+            pb.Names[0] = "Violet";
+            pb.Address.House = 321;
+
+            Console.WriteLine(pa);
+            Console.WriteLine(pb);
+
+            // clone with copy constructor
+            var h1 = new Hero(new[] { "Light", "Yagami" }, new Power("Desu Noto"));
+            var h2 = new Hero(h1);
+            h2.Names[0] = "Soichiro";
+            h2.Power.Source = "Justice";
+
+            Console.WriteLine(h1);
+            Console.WriteLine(h2);
+
+            // own interface for deep copy
+            var ta = new Thing("Thing");
+            var tb = ta.DeepCopy();
+            tb.Name = "SuperThing";
+
+            Console.WriteLine(ta.Name);
+            Console.WriteLine(tb.Name);
         }
+
         //
 
         // IClonable - shallow clone is not quite right.
@@ -72,6 +91,88 @@ namespace Patterns
             public object Clone()
             {
                 return new Address(City, Street, House);
+            }
+        }
+
+        //
+
+        // Copy Constructor - a special type of extensible constructor.
+
+        //
+
+        // Hero - represents hero.
+        class Hero
+        {
+            public List<string> Names = new();
+            public Power Power;
+
+            public Hero(string[] names, Power power)
+            {
+                foreach (var name in names)
+                {
+                    Names.Add(name);
+                }
+                Power = power;
+            }
+
+            // copy constructor
+            public Hero(Hero other)
+            {
+                foreach (var name in other.Names)
+                {
+                    Names.Add(name);
+                }
+                Power = new Power(other.Power);
+            }
+
+            public override string ToString()
+            {
+                return $"Names: {string.Join(", ", Names.ToArray())} | " +
+                $"Power: {Power.Source}";
+            }
+        }
+
+        // Power - represents hero power.
+        class Power
+        {
+            public string Source;
+
+            public Power(string power)
+            {
+                Source = power;
+            }
+
+            // copy constructor
+            public Power(Power other)
+            {
+                Source = other.Source;
+            }
+        }
+
+        //
+
+        // Own Prototype Interface
+
+        //
+
+        //
+
+        interface IPrototype<T>
+        {
+            T DeepCopy();
+        }
+
+        class Thing : IPrototype<Thing>
+        {
+            public string Name;
+            public Thing(string name)
+            {
+                Name = name;
+            }
+
+            public Thing DeepCopy()
+            {
+                return new Thing(Name);
             }
         }
     }
