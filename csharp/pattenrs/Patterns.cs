@@ -7,9 +7,9 @@ namespace Patterns
     {
         public static void Run()
         {
-            Builder.Run();
-            Factories.Run();
-            Prototype.Run();
+            Builder.Main.Run();
+            Factories.Main.Run();
+            Prototype.Main.Run();
         }
     }
 

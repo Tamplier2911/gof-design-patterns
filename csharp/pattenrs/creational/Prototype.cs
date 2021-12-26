@@ -1,4 +1,4 @@
-namespace Patterns
+namespace Prototype
 {
     // Prototype: creates objects by cloning an existing object.
     //
@@ -6,174 +6,244 @@ namespace Patterns
     // Complicated objects are not designed from scratch - existing design being re-iterated
     // An existing object partially or fully constructed is a Prototype
     // We make a copy (deep clone) of the prototype and customized it - cloning must be convenient
-    class Prototype
+    public class Main
     {
         public static void Run()
         {
             Console.WriteLine("Prototype");
 
-            // shallow clone with IClonable
-            var pa = new Person(new[] { "John", "Smith" }, new Address("City", "Street", 123));
-            var pb = (Person)pa.Clone();
+            // shallow clone with ICloneable
+            var pa = new PersonOne(new[] { "John", "Smith" }, new AddressOne("City", "Street", 123));
+            var pb = (PersonOne)pa.Clone();
             pb.Names[0] = "Violet";
             pb.Address.House = 321;
 
             Console.WriteLine(pa);
             Console.WriteLine(pb);
 
-            // clone with copy constructor
-            var h1 = new Hero(new[] { "Light", "Yagami" }, new Power("Desu Noto"));
-            var h2 = new Hero(h1);
-            h2.Names[0] = "Soichiro";
-            h2.Power.Source = "Justice";
+            // clone with Copy Constructor
+            var h1 = new PersonTwo(new[] { "John", "Smith" }, new AddressTwo("City", "Street", 123));
+            var h2 = new PersonTwo(h1);
+            h2.Names[0] = "Violet";
+            h2.Address.House = 321;
 
             Console.WriteLine(h1);
             Console.WriteLine(h2);
 
-            // own interface for deep copy
-            var ta = new Thing("Thing");
-            var tb = ta.DeepCopy();
-            tb.Name = "SuperThing";
+            // prototypal inheritance
+            var j = new Employee(new[] { "John", "Smith" }, new AddressThree("City", "Street", 123), 777);
+            var e = j.DeepCopy(); // without type specification
+            e.Names[0] = "Violet";
+            var p = j.DeepCopy<PersonThree>(); // with type specification
+            p.Address!.House = 321;
 
-            Console.WriteLine(ta.Name);
-            Console.WriteLine(tb.Name);
+            Console.WriteLine(j);
+            Console.WriteLine(e);
+            Console.WriteLine(p);
+        }
+    }
+
+    //
+
+    // ICloneable - shallow clone.
+
+    //
+
+    public class PersonOne : ICloneable
+    {
+        public List<string> Names = new();
+        public AddressOne Address;
+
+        public PersonOne(string[] names, AddressOne address)
+        {
+            Names = new List<string>(names);
+            Address = address;
         }
 
-        //
-
-        // IClonable - shallow clone is not quite right.
-
-        //
-
-        // Person - represents person.
-        class Person : ICloneable
+        public object Clone()
         {
-            public List<string> Names = new();
-            public Address Address;
-
-            public Person(string[] names, Address address)
-            {
-                // Names.Add(name);
-                foreach (var name in names)
-                {
-                    Names.Add(name);
-                }
-                Address = address;
-            }
-
-            public object Clone()
-            {
-                // shallow clone
-                return new Person(Names.ToArray(), (Address)Address.Clone());
-            }
-
-            public override string ToString()
-            {
-                return $"Names: {string.Join(", ", Names.ToArray())} | " +
-                $"Address: {Address.City} - {Address.Street} - {Address.House}";
-            }
+            // shallow clone
+            return new PersonOne(Names.ToArray(), (AddressOne)Address.Clone());
         }
 
-        // Address - represents person address.
-        class Address : ICloneable
+        public override string ToString()
         {
-            public string City;
-            public string Street;
-            public int House;
+            return $"Names: {string.Join(", ", Names.ToArray())} | " +
+            $"Address: {Address.City} - {Address.Street} - {Address.House} | ";
+        }
+    }
 
-            public Address(string city, string street, int house)
-            {
-                City = city;
-                Street = street;
-                House = house;
-            }
+    public class AddressOne : ICloneable
+    {
+        public string City;
+        public string Street;
+        public int House;
 
-            public object Clone()
-            {
-                return new Address(City, Street, House);
-            }
+        public AddressOne(string city, string street, int house)
+        {
+            City = city;
+            Street = street;
+            House = house;
         }
 
-        //
-
-        // Copy Constructor - a special type of extensible constructor.
-
-        //
-
-        // Hero - represents hero.
-        class Hero
+        public object Clone()
         {
-            public List<string> Names = new();
-            public Power Power;
+            return new AddressOne(City, Street, House);
+        }
+    }
 
-            public Hero(string[] names, Power power)
-            {
-                foreach (var name in names)
-                {
-                    Names.Add(name);
-                }
-                Power = power;
-            }
+    //
 
-            // copy constructor
-            public Hero(Hero other)
-            {
-                foreach (var name in other.Names)
-                {
-                    Names.Add(name);
-                }
-                Power = new Power(other.Power);
-            }
+    // Copy Constructor - a special type of extensible constructor.
 
-            public override string ToString()
-            {
-                return $"Names: {string.Join(", ", Names.ToArray())} | " +
-                $"Power: {Power.Source}";
-            }
+    //
+
+    public class PersonTwo
+    {
+        public List<string> Names = new();
+        public AddressTwo Address;
+
+        public PersonTwo(string[] names, AddressTwo address)
+        {
+            Names = new List<string>(names);
+            Address = address;
         }
 
-        // Power - represents hero power.
-        class Power
+        public PersonTwo(PersonTwo other)
         {
-            public string Source;
-
-            public Power(string power)
-            {
-                Source = power;
-            }
-
-            // copy constructor
-            public Power(Power other)
-            {
-                Source = other.Source;
-            }
+            Names = new List<string>(other.Names);
+            Address = new AddressTwo(other.Address);
         }
 
-        //
-
-        // Own Prototype Interface
-
-        //
-
-        //
-
-        interface IPrototype<T>
+        public override string ToString()
         {
-            T DeepCopy();
+            return $"Names: {string.Join(", ", Names.ToArray())} | " +
+            $"Address: {Address.City} - {Address.Street} - {Address.House} | ";
+        }
+    }
+
+    public class AddressTwo
+    {
+        public string City;
+        public string Street;
+        public int House;
+
+        public AddressTwo(string city, string street, int house)
+        {
+            City = city;
+            Street = street;
+            House = house;
         }
 
-        class Thing : IPrototype<Thing>
+        public AddressTwo(AddressTwo other)
         {
-            public string Name;
-            public Thing(string name)
-            {
-                Name = name;
-            }
+            City = other.City;
+            Street = other.Street;
+            House = other.House;
+        }
+    }
 
-            public Thing DeepCopy()
-            {
-                return new Thing(Name);
-            }
+    //
+
+    // Prototype Inheritance 
+
+    //
+
+    public interface IDeepCopyable<T> where T : new() // start from blank
+    {
+        void CopyTo(T target); // copy internal state into target
+        public T DeepCopy() // default interface member
+        {
+            T t = new T();
+            CopyTo(t);
+            return t;
+        }
+    }
+
+    public static class ExtensionMethods
+    {
+        public static T DeepCopy<T>(this IDeepCopyable<T> item) where T : new() // with type specification
+        {
+            return item.DeepCopy();
+        }
+
+        public static T DeepCopy<T>(this T person) where T : PersonThree, new() // without type specification
+        {
+            return ((IDeepCopyable<T>)person).DeepCopy();
+        }
+    }
+
+    public class PersonThree : IDeepCopyable<PersonThree>
+    {
+        public List<string> Names = new();
+        public AddressThree? Address;
+
+        public PersonThree() { }
+
+        public PersonThree(string[] names, AddressThree address)
+        {
+            Names = new List<string>(names);
+            Address = address;
+        }
+
+        public void CopyTo(PersonThree t)
+        {
+            t.Names = new List<string>(Names);
+            t.Address = Address!.DeepCopy(); // call on extension method
+            // t.Address = ((IDeepCopyable<Address>)Address!).DeepCopy(); // call on interface
+        }
+
+        public override string ToString()
+        {
+            return $"Names: {string.Join(", ", Names.ToArray())} | " +
+            $"Address: {Address!.City} - {Address.Street} - {Address.House} | ";
+        }
+    }
+
+    // AddressThree - represents person address.
+    public class AddressThree : IDeepCopyable<AddressThree>
+    {
+        public string? City;
+        public string? Street;
+        public int House;
+
+        public AddressThree() { }
+
+        public AddressThree(string city, string street, int house)
+        {
+            City = city;
+            Street = street;
+            House = house;
+        }
+
+        public void CopyTo(AddressThree t)
+        {
+            t.City = City;
+            t.Street = Street;
+            t.House = House;
+        }
+    }
+
+    public class Employee : PersonThree, IDeepCopyable<Employee>
+    {
+        public int Salary;
+
+        public Employee() { }
+
+        public Employee(string[] names, AddressThree address, int salary) : base(names, address)
+        {
+            Salary = salary;
+        }
+
+        public void CopyTo(Employee t)
+        {
+            t.Salary = Salary;
+            base.CopyTo(t); // copy rest from base class
+        }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}" + $"Salary: {Salary}";
         }
     }
 }

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using System.Text;
 
-namespace Patterns
+namespace Factories
 {
     // Factories: are components responsible solely for the wholesale (not piecewise) creation of objects.
     //
@@ -15,23 +15,23 @@ namespace Patterns
     // - separate function (Factory Method)
     // - separate class (Factory)
     // - can be hierarchy of factories (Abstract Factory)
-    class Factories
+    class Main
     {
         public static void Run()
         {
             Console.WriteLine("Factories");
 
             // factory method
-            var p1 = PointFactoryMethod.NewCartisianPoint(5.0, 5.0);
-            var p2 = PointFactoryMethod.NewPolarPoint(1.0, Math.PI / 2);
+            var p1 = PointOne.NewCartisianPoint(5.0, 5.0);
+            var p2 = PointOne.NewPolarPoint(1.0, Math.PI / 2);
 
             // factory
-            var p3 = PointFactory.NewCartisianPoint(5.0, 5.0);
-            var p4 = PointFactory.NewPolarPoint(1.0, Math.PI / 2);
+            var p3 = PointTwoFactory.NewCartisianPoint(5.0, 5.0);
+            var p4 = PointTwoFactory.NewPolarPoint(1.0, Math.PI / 2);
 
             // inner factory
-            var p5 = PointInnerFactory.Factory.NewCartisianPoint(5.0, 5.0);
-            var p6 = PointInnerFactory.Factory.NewPolarPoint(1.0, Math.PI / 2);
+            var p5 = PointThree.Factory.NewCartisianPoint(5.0, 5.0);
+            var p6 = PointThree.Factory.NewPolarPoint(1.0, Math.PI / 2);
 
             // abstract factory
             var hdm = new HotDrinkMachine();
@@ -64,13 +64,12 @@ namespace Patterns
 
     //
 
-    // PointFactoryMethod - represents point (using factory method).
-    class PointFactoryMethod
+    class PointOne
     {
         private double x, y;
 
         // constructors usually 'private' with factory methods
-        private PointFactoryMethod(double x, double y)
+        private PointOne(double x, double y)
         {
             this.x = x;
             this.y = y;
@@ -80,68 +79,59 @@ namespace Patterns
         // - same argument types, different discripting names
 
         // NewCartisianPoint - is a factory method, which is a wrapper around constructor.
-        public static PointFactoryMethod NewCartisianPoint(double x, double y)
+        public static PointOne NewCartisianPoint(double x, double y)
         {
-            return new PointFactoryMethod(x, y);
+            return new PointOne(x, y);
         }
 
         // NewPolarPoint - is factory method, which is a wrapper around constructor.
-        public static PointFactoryMethod NewPolarPoint(double rho, double theta)
+        public static PointOne NewPolarPoint(double rho, double theta)
         {
-            return new PointFactoryMethod(rho * Math.Cos(theta), rho * Math.Sin(theta));
+            return new PointOne(rho * Math.Cos(theta), rho * Math.Sin(theta));
         }
     }
 
     // 
 
-    // Factory
-
-    // Motivation: separation of concerns (object construction and object behaviour)
+    // Factory - separation of concerns (object construction and object behaviour)
 
     // 
 
-    // Point - represents point.
-    class Point
+    class PointTwo
     {
         private double x, y;
 
-        internal Point(double x, double y)
+        internal PointTwo(double x, double y)
         {
             this.x = x;
             this.y = y;
         }
     }
 
-    // PointFactory - represents point construction factory.
-    class PointFactory
+    class PointTwoFactory
     {
-        // NewCartisianPoint - is a factory method, which is a wrapper around constructor.
-        public static Point NewCartisianPoint(double x, double y)
+        public static PointTwo NewCartisianPoint(double x, double y)
         {
-            return new Point(x, y);
+            return new PointTwo(x, y);
         }
 
-        // NewPolarPoint - is factory method, which is a wrapper around constructor.
-        public static Point NewPolarPoint(double rho, double theta)
+        public static PointTwo NewPolarPoint(double rho, double theta)
         {
-            return new Point(rho * Math.Cos(theta), rho * Math.Sin(theta));
+            return new PointTwo(rho * Math.Cos(theta), rho * Math.Sin(theta));
         }
     }
 
     //
 
-    // Inner Factory
-
-    // Motivation: if class constraint should be private, it may contain inner factory
+    // Inner Factory - if class constraint should be private, it may contain inner factory
 
     //
 
-    // PointInnerFactory - represents point with Inner Factory.
-    class PointInnerFactory
+    class PointThree
     {
         private double x, y;
 
-        private PointInnerFactory(double x, double y)
+        private PointThree(double x, double y)
         {
             this.x = x;
             this.y = y;
@@ -150,33 +140,29 @@ namespace Patterns
         // Factory - implements point Inner Factory.
         public static class Factory
         {
-            public static PointInnerFactory NewCartisianPoint(double x, double y)
+            public static PointThree NewCartisianPoint(double x, double y)
             {
-                return new PointInnerFactory(x, y);
+                return new PointThree(x, y);
             }
 
-            public static PointInnerFactory NewPolarPoint(double rho, double theta)
+            public static PointThree NewPolarPoint(double rho, double theta)
             {
-                return new PointInnerFactory(rho * Math.Cos(theta), rho * Math.Sin(theta));
+                return new PointThree(rho * Math.Cos(theta), rho * Math.Sin(theta));
             }
         }
     }
 
     // 
 
-    // Abstract Factory - returns abstract classes or interfaces
-
-    // Motivation: group object factories that have a common theme.
+    // Abstract Factory - returns abstract classes or interfaces, group object factories that have a common theme.
 
     //
 
-    // IHotDrink - represents hot drink.
     public interface IHotDrink
     {
         void Consume();
     }
 
-    // Tea - represents tea.
     internal class Tea : IHotDrink
     {
         private string Kind;
@@ -184,7 +170,6 @@ namespace Patterns
         public void Consume() { Console.WriteLine($"consuming drink: {Kind}"); }
     }
 
-    // Coffee - represents coffee.
     internal class Coffee : IHotDrink
     {
         private string Kind;
@@ -192,13 +177,11 @@ namespace Patterns
         public void Consume() { Console.WriteLine($"consuming drink: {Kind}"); }
     }
 
-    // IHotDrinkFactory - represents hot drink abstract factory.
     interface IHotDrinkFactory
     {
         IHotDrink Prepare(string kind);
     }
 
-    // TeaFactory - represent tea factory.
     internal class TeaFactory : IHotDrinkFactory
     {
         public IHotDrink Prepare(string kind)
@@ -207,7 +190,6 @@ namespace Patterns
         }
     }
 
-    // CoffeeFactory - represent coffee factory.
     internal class CoffeeFactory : IHotDrinkFactory
     {
         public IHotDrink Prepare(string kind)
@@ -216,7 +198,6 @@ namespace Patterns
         }
     }
 
-    // HotDrinkMachine - hot drink abstract factory.
     public class HotDrinkMachine
     {
         private List<(string, IHotDrinkFactory)> factories = new();
@@ -256,13 +237,10 @@ namespace Patterns
 
     // 
 
-    // Asynchronous Factory Method
-
-    // Motivation: cannot perform asynchronous action inside of the constructor.
+    // Asynchronous Factory Method - cannot perform asynchronous action inside of the constructor.
 
     //  
 
-    // Note - represents random note.
     class Note
     {
         private Note()
@@ -271,7 +249,6 @@ namespace Patterns
             // but async action is required for initialization
         }
 
-        // InitAsync - getting task description asynchronously.
         private async Task<Note> InitAsync()
         {
             // perform async action
@@ -279,7 +256,6 @@ namespace Patterns
             return this;
         }
 
-        // CreateAsync - is async factory method, a wrapper around constructor which performs async call.
         public static Task<Note> CreateAsync()
         {
             // create instance of note
@@ -296,34 +272,29 @@ namespace Patterns
 
     // 
 
-    // ITheme - represents theme interface.
     interface ITheme
     {
         string TextColor { get; }
         string BGColor { get; }
     }
 
-    // LightTheme - represents light theme.
     class LightTheme : ITheme
     {
         public string TextColor => "#222";
         public string BGColor => "#fff";
     }
 
-    // DarkTheme - represents dark theme.
     class DarkTheme : ITheme
     {
         public string TextColor => "#ffe";
         public string BGColor => "#444";
     }
 
-    // ThemeColor - represets possible theme colors.
     enum ThemeColor
     {
         LightTheme, DarkTheme
     }
 
-    // TrackThemeFactory - saving a weak reference to objects created inside a factory in order to track them.
     class TrackingThemeFactory
     {
         private readonly List<WeakReference<ITheme>> refs = new();
@@ -362,8 +333,6 @@ namespace Patterns
         }
     }
 
-
-    // Ref - wrapper which allow bulk replacements.
     class Ref<T> where T : class
     {
         public T Value;
@@ -373,8 +342,6 @@ namespace Patterns
         }
     }
 
-    // ReplaceableThemeFactory - saving a weak reference to objects created inside a factory in order to track them,
-    // wraps objects in a Ref in order to have ability for bulk replacement.
     class ReplaceableThemeFactory
     {
         private readonly List<WeakReference<Ref<ITheme>>> refs = new();

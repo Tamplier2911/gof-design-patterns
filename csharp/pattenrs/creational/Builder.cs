@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Patterns
+namespace Builder
 {
     // Builder: when piecewise object construction is complicated provides an API for doing it succinctly.
     //
@@ -8,7 +8,7 @@ namespace Patterns
     // Some objects are simple and can be created within a single constructor call.
     // Some isn't, having object with dozen constructor arguments is not productive.
     // Builder provides API for constructing objects step by step.
-    class Builder
+    class Main
     {
         public static void Run()
         {
@@ -58,7 +58,12 @@ namespace Patterns
         }
     }
 
-    // CodeBuilder - builds class with fields based on provided input data.
+    //
+
+    // Basic Builder with fluent interface.
+
+    //
+
     class CodeBuilder
     {
         private string ClassName;
@@ -98,27 +103,23 @@ namespace Patterns
 
     //
 
-    // Fluent Interface (return this) and Inheritance - handled with recursive generics
+    // Fluent Interface and Inheritance - handled with recursive generics
 
     // 
 
-    // PersonBuilder - represents base abstraction of a builder.
     abstract class PersonBuilder
     {
         protected Person p = new Person();
 
-        // Build - returns instance of person.
         public Person Build()
         {
             return p;
         }
     }
 
-    // PersonInfoBuilder - represents person info builder.
     class PersonInfoBuilder<SELF> : PersonBuilder
     where SELF : PersonInfoBuilder<SELF> // recursive generics
     {
-        // Named - sets person name and return instance of self.
         public SELF Called(string name)
         {
             p.Name = name;
@@ -126,11 +127,9 @@ namespace Patterns
         }
     }
 
-    // PersonJobBuilder - represents person job builder.
     class PersonJobBuilder<SELF> : PersonInfoBuilder<PersonJobBuilder<SELF>>
     where SELF : PersonJobBuilder<SELF> // recursive generics
     {
-        // WorkAs - sets persons position and returns instance of self.
         public SELF WorkAs(string position)
         {
             p.Position = position;
@@ -138,7 +137,6 @@ namespace Patterns
         }
     }
 
-    // Person - represents person.
     class Person
     {
         public string? Name;
@@ -162,58 +160,47 @@ namespace Patterns
 
     //
 
-    // CarType - represents type of car.
     public enum CarType { Sedan, Crossover }
 
-    // ISpecifyCarType - represents interface of car type specification.
     interface ISpecifyCarType
     {
         ISpecifyWheelSize OfType(CarType type);
     }
 
-    // ISpecifyWheelsSize - represents interface of car wheel size specification.
     interface ISpecifyWheelSize
     {
         IBuildCar WithWheels(int size);
     }
 
-    // IBuildCar - represents interface of car build.
     interface IBuildCar
     {
         public Car Build();
     }
 
-    // CarBuilder - represents car builder.
     class CarBuilder
     {
-
-        // Implement - represents private class that going to implement all required interfaces
         private class Implement : ISpecifyCarType, ISpecifyWheelSize, IBuildCar
         {
-            // the object we build
             private Car c = new Car();
 
-            // OfType - specify car type, return segmented ISpecifyWheelSize
             public ISpecifyWheelSize OfType(CarType type)
             {
                 c.Type = type;
                 return this;
             }
 
-            // WithWheels - specify car wheel size, return segmented IBuildCar
             public IBuildCar WithWheels(int size)
             {
                 switch (c.Type)
                 {
                     case CarType.Sedan when size < 15 || size > 17:
                     case CarType.Crossover when size < 17 || size > 20:
-                        throw new ArgumentException("");
+                        throw new ArgumentException("invalid input data");
                 }
                 c.WheelSize = size;
                 return this;
             }
 
-            // Build - returns built car instance
             public Car Build()
             {
                 return c;
@@ -226,7 +213,6 @@ namespace Patterns
         }
     }
 
-    // Car - represents base class of car.
     class Car
     {
         public CarType Type;
@@ -244,7 +230,6 @@ namespace Patterns
 
     //
 
-    // Generic Functional Builder
     public abstract class FunctionalBuilder<TSubject, TSelf>
     where TSubject : new()
     where TSelf : FunctionalBuilder<TSubject, TSelf>
@@ -262,13 +247,11 @@ namespace Patterns
         }
     }
 
-    // CatBuilder inherit from FunctionalBuilder - cannot inherit from 'sealed' class.
     public sealed class CatBuilder : FunctionalBuilder<Cat, CatBuilder>
     {
         public CatBuilder Called(string name) => Do(c => c.Name = name);
     }
 
-    // CatBuilderExtansions - adds extension methods to CatBuilder.
     public static class CatBuilderExtansions
     {
         public static CatBuilder Likes(this CatBuilder builder, string hobby) => builder.Do(c => c.Hobby = hobby);
@@ -290,7 +273,6 @@ namespace Patterns
 
     //
 
-    // EmployeeBuilder - is actually facade (keeps reference to real builder, allow access to sub builders)
     public class EmployeeBuilder
     {
         // !all builders use same reference
@@ -298,11 +280,9 @@ namespace Patterns
 
         public EmployeeAddressBuilder Lives => new EmployeeAddressBuilder(employee);
         public EmployeeJobBuilder Works => new EmployeeJobBuilder(employee);
-
         public Employee Build() => employee;
     }
 
-    // EmployeeAddressBuilder - builds employee address information.
     public class EmployeeAddressBuilder : EmployeeBuilder
     {
         public EmployeeAddressBuilder(Employee e)
@@ -362,7 +342,8 @@ namespace Patterns
 
         public override string ToString()
         {
-            return $"{nameof(StreetAddress)} {StreetAddress} | {nameof(City)} {City} | {nameof(PostCode)} {PostCode} |  {nameof(CompanyName)} {CompanyName} | {nameof(Position)} {Position}";
+            return $"{nameof(StreetAddress)} {StreetAddress} | {nameof(City)} {City} | {nameof(PostCode)} {PostCode} | " +
+            $"{nameof(CompanyName)} {CompanyName} | {nameof(Position)} {Position}";
         }
     }
 }
