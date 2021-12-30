@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace Prototype
 {
     // Prototype: creates objects by cloning an existing object.
@@ -13,7 +15,7 @@ namespace Prototype
             Console.WriteLine("Prototype");
 
             // shallow clone with ICloneable
-            var pa = new PersonOne(new[] { "John", "Smith" }, new AddressOne("City", "Street", 123));
+            var pa = new PersonOne(new List<string> { "John", "Smith" }, new AddressOne("City", "Street", 123));
             var pb = (PersonOne)pa.Clone();
             pb.Names[0] = "Violet";
             pb.Address.House = 321;
@@ -22,7 +24,7 @@ namespace Prototype
             Console.WriteLine(pb);
 
             // clone with Copy Constructor
-            var h1 = new PersonTwo(new[] { "John", "Smith" }, new AddressTwo("City", "Street", 123));
+            var h1 = new PersonTwo(new List<string> { "John", "Smith" }, new AddressTwo("City", "Street", 123));
             var h2 = new PersonTwo(h1);
             h2.Names[0] = "Violet";
             h2.Address.House = 321;
@@ -31,7 +33,7 @@ namespace Prototype
             Console.WriteLine(h2);
 
             // prototypal inheritance
-            var j = new Employee(new[] { "John", "Smith" }, new AddressThree("City", "Street", 123), 777);
+            var j = new Employee(new List<string> { "John", "Smith" }, new AddressThree("City", "Street", 123), 777);
             var e = j.DeepCopy(); // without type specification
             e.Names[0] = "Violet";
             var p = j.DeepCopy<PersonThree>(); // with type specification
@@ -40,6 +42,17 @@ namespace Prototype
             Console.WriteLine(j);
             Console.WriteLine(e);
             Console.WriteLine(p);
+
+            // copy through serialization
+            var cs1 = new PersonFour(new List<string> { "John", "Smith" }, new AddressFour("City", "Street", 123));
+            var cs2 = cs1.DeepCopyJSON<PersonFour>();
+            cs2.Names[0] = "Violet";
+            var cs3 = cs2.DeepCopyJSON<PersonFour>();
+            cs3.Address.House = 321;
+
+            Console.WriteLine(cs1);
+            Console.WriteLine(cs2);
+            Console.WriteLine(cs3);
         }
     }
 
@@ -54,7 +67,7 @@ namespace Prototype
         public List<string> Names = new();
         public AddressOne Address;
 
-        public PersonOne(string[] names, AddressOne address)
+        public PersonOne(List<string> names, AddressOne address)
         {
             Names = new List<string>(names);
             Address = address;
@@ -63,7 +76,7 @@ namespace Prototype
         public object Clone()
         {
             // shallow clone
-            return new PersonOne(Names.ToArray(), (AddressOne)Address.Clone());
+            return new PersonOne(Names, (AddressOne)Address.Clone());
         }
 
         public override string ToString()
@@ -103,7 +116,7 @@ namespace Prototype
         public List<string> Names = new();
         public AddressTwo Address;
 
-        public PersonTwo(string[] names, AddressTwo address)
+        public PersonTwo(List<string> names, AddressTwo address)
         {
             Names = new List<string>(names);
             Address = address;
@@ -180,7 +193,7 @@ namespace Prototype
 
         public PersonThree() { }
 
-        public PersonThree(string[] names, AddressThree address)
+        public PersonThree(List<string> names, AddressThree address)
         {
             Names = new List<string>(names);
             Address = address;
@@ -230,7 +243,7 @@ namespace Prototype
 
         public Employee() { }
 
-        public Employee(string[] names, AddressThree address, int salary) : base(names, address)
+        public Employee(List<string> names, AddressThree address, int salary) : base(names, address)
         {
             Salary = salary;
         }
@@ -244,6 +257,52 @@ namespace Prototype
         public override string ToString()
         {
             return $"{base.ToString()}" + $"Salary: {Salary}";
+        }
+    }
+
+    //
+
+    // Copy through serialization
+
+    //
+
+    public static class ExtensionMethods2
+    {
+        public static T DeepCopyJSON<T>(this T self)
+        {
+            return JsonSerializer.Deserialize<T>(JsonSerializer.Serialize<T>(self))!;
+        }
+    }
+
+    class PersonFour
+    {
+        public List<string> Names { get; set; }
+        public AddressFour Address { get; set; }
+
+        public PersonFour(List<string> names, AddressFour address)
+        {
+            Names = new List<string>(names);
+            Address = address;
+        }
+
+        public override string ToString()
+        {
+            return $"Names: {string.Join(", ", Names.ToArray())} | " +
+            $"Address: {Address!.City} - {Address.Street} - {Address.House} | ";
+        }
+    }
+
+    class AddressFour
+    {
+        public string City { get; set; }
+        public string Street { get; set; }
+        public int House { get; set; }
+
+        public AddressFour(string city, string street, int house)
+        {
+            City = city;
+            Street = street;
+            House = house;
         }
     }
 }

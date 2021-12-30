@@ -14,11 +14,11 @@ GOF Design Patterns implementation in variety of programming languages.
 
 ### Creational
 
-1.  [x] Factories
+1.  [x] Factories [C#]
     - Abstract factory
     - Factory method
-2.  [x] Builder
-3.  [ ] Prototype
+2.  [x] Builder [C#]
+3.  [x] Prototype [C#]
 4.  [ ] Singleton
 
 ### Structural
