@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Volumes/Skynet/Developer/gof-design-patterns/csharp/csharp.csproj": {}
+    "/Volumes/Skynet/Developer/random/gof-design-patterns/csharp/csharp.csproj": {}
   },
   "projects": {
-    "/Volumes/Skynet/Developer/gof-design-patterns/csharp/csharp.csproj": {
+    "/Volumes/Skynet/Developer/random/gof-design-patterns/csharp/csharp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Volumes/Skynet/Developer/gof-design-patterns/csharp/csharp.csproj",
+        "projectUniqueName": "/Volumes/Skynet/Developer/random/gof-design-patterns/csharp/csharp.csproj",
         "projectName": "csharp",
-        "projectPath": "/Volumes/Skynet/Developer/gof-design-patterns/csharp/csharp.csproj",
+        "projectPath": "/Volumes/Skynet/Developer/random/gof-design-patterns/csharp/csharp.csproj",
         "packagesPath": "/Users/templar/.nuget/packages/",
-        "outputPath": "/Volumes/Skynet/Developer/gof-design-patterns/csharp/obj/",
+        "outputPath": "/Volumes/Skynet/Developer/random/gof-design-patterns/csharp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/templar/.nuget/NuGet/NuGet.Config"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qIrhmPor4j7LtEm9FJcGyDHQuPz/4qsmQInwYzhjMoZ1EQhJGnmQNBqbiVgE01rdwHiMQ5q/7WnCPGj6SflP3A==",
+  "dgSpecHash": "K1zGc8Y2cN60aFGxbyAzETYl3vaLApkhZAhaPGfTVigSN4Ed3ANkMhk+TETsKPTtS+N4HOhLo3LfxNZ4qQFtXw==",
   "success": true,
-  "projectFilePath": "/Volumes/Skynet/Developer/gof-design-patterns/csharp/csharp.csproj",
+  "projectFilePath": "/Volumes/Skynet/Developer/random/gof-design-patterns/csharp/csharp.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
