@@ -3,7 +3,7 @@ namespace Solid
     // S - Single Responsibility (class should have one reason to change).
     // 1. module, class or function should have responsibility over a single part of that program's functionality and it should encapsulate that part
     // 2. all of that module, class or function's services should be narrowly aligned with that responsibility
-    // 3. separation of concernes - different classes handling different independent problems/tasks
+    // 3. separation of concerns - different classes handling different independent problems/tasks
     class SingleResponsibility
     {
 
