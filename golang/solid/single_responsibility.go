@@ -8,12 +8,15 @@ import (
 )
 
 // S - Single Responsibility (should have one reason to change).
+
 // 1. should have responsibility over a single part of that program's functionality, and it should encapsulate that part
 // 2. all of that services should be narrowly aligned with that responsibility
 // 3. separation of concerns - different modules handling different independent problems/tasks
 
 func SingleResponsibility() {
 	fmt.Println("Single Responsibility")
+	fmt.Println("START")
+
 	const _path = "./solid/files/journal_entries.txt"
 
 	// init journal
@@ -43,6 +46,8 @@ func SingleResponsibility() {
 	ls.LoadFromLocalFile(j)
 
 	fmt.Printf("Entries: %s, Count: %d \n", j.Entries, j.EntriesCount)
+
+	fmt.Println("END")
 }
 
 // Journal - represents journal.

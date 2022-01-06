@@ -10,4 +10,5 @@ package solid
 
 func Run() {
 	SingleResponsibility()
+	OpenClosed()
 }
