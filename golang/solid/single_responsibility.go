@@ -148,6 +148,7 @@ func NewLocalStorage(path string) *LocalStorage {
 	return &LocalStorage{path}
 }
 
+// StoreToLocalFile - stores string in local file.
 func (ls *LocalStorage) StoreToLocalFile(s Stringer) {
 	// create or truncate file
 	f, _ := os.Create(ls.Path)
@@ -158,6 +159,7 @@ func (ls *LocalStorage) StoreToLocalFile(s Stringer) {
 	_ = f.Sync()
 }
 
+// LoadFromLocalFile - loads string from local file.
 func (ls *LocalStorage) LoadFromLocalFile(p Parser) {
 	// open file
 	f, _ := os.Open(ls.Path)

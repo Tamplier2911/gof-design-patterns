@@ -57,7 +57,23 @@ func OpenClosed() {
 
 	fmt.Printf("[G] Large Products: %+v\n", largeProds)
 	fmt.Printf("[G] Black Products: %+v\n", blackProds)
-	fmt.Printf("[G] Large Black Products: %+v\n", blackAndLargeProds)
+	fmt.Printf("[G] Large Black Products: %+v\n\n", blackAndLargeProds)
+
+	fee := ProductFilterEnhanced{}
+	largeProdse := fee.FilterProducts(pp, &ProductSizeSpecification{ProductSizeLarge})
+	blackProdse := fee.FilterProducts(pp, &ProductColorSpecification{ProductColorBlack})
+	blackAndLargeProdse := fee.FilterProducts(pp,
+		&ProductAndSpecification{
+			[]ProductSpecification{
+				&ProductSizeSpecification{ProductSizeLarge},
+				&ProductColorSpecification{ProductColorBlack},
+			},
+		},
+	)
+
+	fmt.Printf("[G] Large Products: %+v\n", largeProdse)
+	fmt.Printf("[G] Black Products: %+v\n", blackProdse)
+	fmt.Printf("[G] Large Black Products: %+v\n", blackAndLargeProdse)
 
 	fmt.Println("END")
 }
@@ -67,11 +83,6 @@ type Product struct {
 	Name  string
 	Color ProductColor
 	Size  ProductSize
-}
-
-// NewProduct - creates new Product instance.
-func NewProduct(name string, color ProductColor, size ProductSize) *Product {
-	return &Product{Name: name, Color: color, Size: size}
 }
 
 // ProductColor - represents Product colors.
@@ -187,7 +198,7 @@ func NewProductAndSpecification(specs ...ProductSpecification) *ProductAndSpecif
 
 // ProductSatisfied - ensures that Product specification is satisfied.
 func (pas *ProductAndSpecification) ProductSatisfied(p Product) bool {
-	for i, _ := range pas.Specifications {
+	for i := range pas.Specifications {
 		if !pas.Specifications[i].ProductSatisfied(p) {
 			return false
 		}

@@ -1,7 +1,8 @@
 namespace Solid
 {
     // L - Liskov Substitution (ability to substitute base-type with sub-type)
-    // "Let (x) be a property provable about objects x of type T. Then (y) should be true for objects y of type S where S is a subtype of T."
+    // "Let (x) be a property provable about objects x of type T.
+    // Then (y) should be true for objects y of type S where S is a subtype of T."
     class LiskovSubstitution
     {
         static public int GetArea(Rectangle r) => r.Width * r.Height;
