@@ -12,4 +12,6 @@ func Run() {
 	SingleResponsibility()
 	OpenClosed()
 	LiskovSubstitution()
+	InterfaceSegregation()
+	DependencyInversion()
 }

@@ -71,15 +71,15 @@ namespace Solid
         }
     }
 
-    // StandartPrinter capable to perform printing operations on documents.
-    class StandartPrinter : IMachine<Document>
+    // StandardPrinter capable to perform printing operations on documents.
+    class StandardPrinter : IMachine<Document>
     {
         public void Print(Document d)
         {
-            Console.WriteLine($"Printend: {d.Name}");
+            Console.WriteLine($"Printed: {d.Name}");
         }
 
-        // StandartPrinter have to implement methods that useless for its purpose in order to implement IMachine interface.
+        // StandardPrinter have to implement methods that useless for its purpose in order to implement IMachine interface.
         public void Scan(Document d)
         {
             throw new NotImplementedException();
@@ -155,14 +155,14 @@ namespace Solid
         }
     }
 
-    // MultiFunctionDocumentPrinterDeligated capabel to delegate certain functionalities to other classes. (Decorator)
-    class MultiFunctionDocumentPrinterDeligated : MultiFunctionPrinter<Document>
+    // MultiFunctionDocumentPrinterDelegated capable to delegate certain functionalities to other classes. (Decorator)
+    class MultiFunctionDocumentPrinterDelegated : MultiFunctionPrinter<Document>
     {
         private DocumentPrinter printer;
         private DocumentScanner scanner;
         private DocumentFax fax;
 
-        public MultiFunctionDocumentPrinterDeligated(DocumentPrinter printer, DocumentScanner scanner, DocumentFax fax)
+        public MultiFunctionDocumentPrinterDelegated(DocumentPrinter printer, DocumentScanner scanner, DocumentFax fax)
         {
             this.printer = printer ?? throw new ArgumentNullException(paramName: nameof(printer));
             this.scanner = scanner ?? throw new ArgumentNullException(paramName: nameof(scanner));

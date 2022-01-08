@@ -11,72 +11,142 @@ func LiskovSubstitution() {
 	fmt.Println("START")
 
 	r := &Rectangle{}
-	r.SetWidth(2)
-	r.SetHeight(5)
-	fmt.Println(GetArea(r))
+	r.SetA(2)
+	r.SetB(5)
+	fmt.Printf("Rectangle Area: %d\n", r.GetArea())
 
-	s := &Square{}
-	s.SetWidth(2)
-	s.SetHeight(5)
-	fmt.Println(GetArea(s))
+	s := &Square1{}
+	s.SetA(2)
+	s.SetB(5)
+	fmt.Printf("Square1 Area: %d\n", s.GetArea())
+
+	ss := &Square2{}
+	ss.SetAB(2)
+	fmt.Printf("Square2 Area: %d\n", ss.GetArea())
 
 	fmt.Println("END")
 }
 
-// Sized - represents shape size interface.
-type Sized interface {
-	GetWidth() int
-	SetWidth(w int)
-	GetHeight() int
-	SetHeight(h int)
+// ConvexQuadrilateral - represents convex quadrilateral interface.
+type ConvexQuadrilateral interface {
+	GetArea() int
 }
 
-// Rectangle
+// EquiangularQuadrilateral - represents equiangular equilateral interface.
+type EquiangularQuadrilateral interface {
+	ConvexQuadrilateral
+	SetA(a int)
+	SetB(b int)
+}
 
-// Rectangle - represents rectangular shape.
+// ---
+
+// Rectangle - represent rectangular shape.
 type Rectangle struct {
-	Width, Height int
+	EquiangularQuadrilateral
+	A int
+	B int
 }
 
-// GetWidth - gets rectangle width.
-func (r *Rectangle) GetWidth() int {
-	return r.Width
+// SetA - sets rectangle width.
+func (r *Rectangle) SetA(a int) {
+	r.A = a
 }
 
-// SetWidth - sets rectangle width.
-func (r *Rectangle) SetWidth(w int) {
-	r.Width = w
+// SetB - sets rectangle height.
+func (r *Rectangle) SetB(b int) {
+	r.B = b
 }
 
-// GetHeight - gets rectangle height.
-func (r *Rectangle) GetHeight() int {
-	return r.Height
+// GetArea - calculate rectangle area.
+func (r *Rectangle) GetArea() int {
+	return r.A * r.B
 }
 
-// SetHeight - sets rectangle height.
-func (r *Rectangle) SetHeight(h int) {
-	r.Height = h
+// ---
+
+// Square1 - represents square shape.
+type Square1 struct {
+	EquiangularQuadrilateral
+	A int
 }
 
-// Square
-
-// Square - represents rectangular shape.
-type Square struct {
-	Rectangle
+// SetA - sets square height and width.
+func (s *Square1) SetA(a int) {
+	s.A = a
 }
 
-// SetWidth - sets rectangle width.
-func (r *Square) SetWidth(s int) {
-	r.Width, r.Height = s, s
+// GetArea - calculate square area.
+func (s *Square1) GetArea() int {
+	return s.A * s.A
 }
 
-// SetHeight - sets rectangle height.
-func (r *Square) SetHeight(s int) {
-	r.Height, r.Width = s, s
+// SetB - sets square width (obsolete)
+func (s *Square1) SetB(b int) {
+	// should it be s.A = b ?
+	// or should it be empty?
+	s.A = b
 }
 
-// Utilities
+// ---
 
-func GetArea(s Sized) int {
-	return s.GetWidth() * s.GetHeight()
+// EquilateralQuadrilateral - represents equilateral quadrilateral interface.
+type EquilateralQuadrilateral interface {
+	ConvexQuadrilateral
+	SetAB(a int)
+}
+
+// NonEquilateralQuadrilateral - represents non equilateral quadrilateral interface.
+type NonEquilateralQuadrilateral interface {
+	ConvexQuadrilateral
+	SetA(a int)
+	SetB(b int)
+}
+
+// NonEquiangularQuadrilateral - represents non equiangular quadrilateral.
+type NonEquiangularQuadrilateral interface {
+	ConvexQuadrilateral
+	SetAngle(angle float64)
+}
+
+// ---
+
+// Oblong - represents oblong shape.
+type Oblong struct {
+	NonEquilateralQuadrilateral
+	A int
+	B int
+}
+
+// Parallelogram - represents parallelogram shape.
+type Parallelogram struct {
+	NonEquilateralQuadrilateral
+	NonEquiangularQuadrilateral
+	a     int
+	b     int
+	angle float64
+}
+
+// Rhombus - represents rhombus shape.
+type Rhombus struct {
+	EquilateralQuadrilateral
+	NonEquiangularQuadrilateral
+	a     int
+	angle float64
+}
+
+// Square2 - represents square shape.
+type Square2 struct {
+	EquilateralQuadrilateral
+	A int
+}
+
+// SetAB - sets square width and height.
+func (r *Square2) SetAB(a int) {
+	r.A = a
+}
+
+// GetArea - calculate square area.
+func (r *Square2) GetArea() int {
+	return r.A * r.A
 }

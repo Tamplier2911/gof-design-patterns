@@ -71,9 +71,9 @@ func OpenClosed() {
 		},
 	)
 
-	fmt.Printf("[G] Large Products: %+v\n", largeProdse)
-	fmt.Printf("[G] Black Products: %+v\n", blackProdse)
-	fmt.Printf("[G] Large Black Products: %+v\n", blackAndLargeProdse)
+	fmt.Printf("[GE] Large Products: %+v\n", largeProdse)
+	fmt.Printf("[GE] Black Products: %+v\n", blackProdse)
+	fmt.Printf("[GE] Large Black Products: %+v\n", blackAndLargeProdse)
 
 	fmt.Println("END")
 }
