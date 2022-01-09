@@ -8,7 +8,6 @@ import "fmt"
 
 func InterfaceSegregation() {
 	fmt.Println("Interface segregation")
-	fmt.Println("START")
 
 	// doc
 	d := Document{"Document1"}
@@ -40,8 +39,6 @@ func InterfaceSegregation() {
 	mfpe.PrintDocument(d)
 	mfpe.ScanDocument(d)
 	mfpe.FaxDocument(d)
-
-	fmt.Println("END")
 }
 
 // Document - represents document.

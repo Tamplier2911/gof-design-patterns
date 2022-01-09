@@ -1,7 +1,7 @@
 namespace Solid
 {
     // Dependency Inversion 
-    // 1. high-level modules should not import anything from low-level modules, both should depend on abstractions)
+    // 1. high-level modules should not import anything from low-level modules, both should depend on abstractions
     // 2. abstractions should not depend on details, details (concrete implementations) should depend on abstractions
     class DependencyInversion
     {

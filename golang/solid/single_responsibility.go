@@ -15,7 +15,6 @@ import (
 
 func SingleResponsibility() {
 	fmt.Println("Single Responsibility")
-	fmt.Println("START")
 
 	const _path = "./solid/files/journal_entries.txt"
 
@@ -46,8 +45,6 @@ func SingleResponsibility() {
 	ls.LoadFromLocalFile(j)
 
 	fmt.Printf("Entries: %s, Count: %d \n", j.Entries, j.EntriesCount)
-
-	fmt.Println("END")
 }
 
 // Journal - represents journal.

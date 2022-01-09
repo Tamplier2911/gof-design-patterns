@@ -8,7 +8,6 @@ import "fmt"
 
 func LiskovSubstitution() {
 	fmt.Println("Liskov Substitution")
-	fmt.Println("START")
 
 	r := &Rectangle{}
 	r.SetA(2)
@@ -21,10 +20,8 @@ func LiskovSubstitution() {
 	fmt.Printf("Square1 Area: %d\n", s.GetArea())
 
 	ss := &Square2{}
-	ss.SetAB(2)
+	ss.SetA(2)
 	fmt.Printf("Square2 Area: %d\n", ss.GetArea())
-
-	fmt.Println("END")
 }
 
 // ConvexQuadrilateral - represents convex quadrilateral interface.
@@ -93,7 +90,7 @@ func (s *Square1) SetB(b int) {
 // EquilateralQuadrilateral - represents equilateral quadrilateral interface.
 type EquilateralQuadrilateral interface {
 	ConvexQuadrilateral
-	SetAB(a int)
+	SetA(a int)
 }
 
 // NonEquilateralQuadrilateral - represents non equilateral quadrilateral interface.
@@ -141,8 +138,8 @@ type Square2 struct {
 	A int
 }
 
-// SetAB - sets square width and height.
-func (r *Square2) SetAB(a int) {
+// SetA - sets square width and height.
+func (r *Square2) SetA(a int) {
 	r.A = a
 }
 

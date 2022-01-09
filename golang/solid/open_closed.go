@@ -9,7 +9,6 @@ import "fmt"
 
 func OpenClosed() {
 	fmt.Println("Open-Closed")
-	fmt.Println("START")
 
 	// init range of products
 	pp := []Product{
@@ -74,8 +73,6 @@ func OpenClosed() {
 	fmt.Printf("[GE] Large Products: %+v\n", largeProdse)
 	fmt.Printf("[GE] Black Products: %+v\n", blackProdse)
 	fmt.Printf("[GE] Large Black Products: %+v\n", blackAndLargeProdse)
-
-	fmt.Println("END")
 }
 
 // Product - represents product.
