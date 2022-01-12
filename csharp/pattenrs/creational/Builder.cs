@@ -6,7 +6,7 @@ namespace Builder
     //
     // Motivation:
     // Some objects are simple and can be created within a single constructor call.
-    // Some isn't, having object with dozen constructor arguments is not productive.
+    // Some isn't, having object with a dozen constructor arguments is not productive.
     // Builder provides API for constructing objects step by step.
     class Main
     {
