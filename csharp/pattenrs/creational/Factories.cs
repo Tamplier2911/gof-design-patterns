@@ -22,15 +22,15 @@ namespace Factories
             Console.WriteLine("Factories");
 
             // factory method
-            var p1 = PointOne.NewCartisianPoint(5.0, 5.0);
+            var p1 = PointOne.NewCartesianPoint(5.0, 5.0);
             var p2 = PointOne.NewPolarPoint(1.0, Math.PI / 2);
 
             // factory
-            var p3 = PointTwoFactory.NewCartisianPoint(5.0, 5.0);
+            var p3 = PointTwoFactory.NewCartesianPoint(5.0, 5.0);
             var p4 = PointTwoFactory.NewPolarPoint(1.0, Math.PI / 2);
 
             // inner factory
-            var p5 = PointThree.Factory.NewCartisianPoint(5.0, 5.0);
+            var p5 = PointThree.Factory.NewCartesianPoint(5.0, 5.0);
             var p6 = PointThree.Factory.NewPolarPoint(1.0, Math.PI / 2);
 
             // abstract factory
@@ -76,10 +76,10 @@ namespace Factories
         }
 
         // - names of factory methods are unique
-        // - same argument types, different discripting names
+        // - same argument types, different descriptive names
 
-        // NewCartisianPoint - is a factory method, which is a wrapper around constructor.
-        public static PointOne NewCartisianPoint(double x, double y)
+        // NewCartesianPoint - is a factory method, which is a wrapper around constructor.
+        public static PointOne NewCartesianPoint(double x, double y)
         {
             return new PointOne(x, y);
         }
@@ -110,7 +110,7 @@ namespace Factories
 
     class PointTwoFactory
     {
-        public static PointTwo NewCartisianPoint(double x, double y)
+        public static PointTwo NewCartesianPoint(double x, double y)
         {
             return new PointTwo(x, y);
         }
@@ -140,7 +140,7 @@ namespace Factories
         // Factory - implements point Inner Factory.
         public static class Factory
         {
-            public static PointThree NewCartisianPoint(double x, double y)
+            public static PointThree NewCartesianPoint(double x, double y)
             {
                 return new PointThree(x, y);
             }
