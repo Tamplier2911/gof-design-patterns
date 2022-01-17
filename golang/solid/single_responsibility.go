@@ -162,7 +162,7 @@ func (ls *LocalStorage) LoadFromLocalFile(p Parser) {
 	f, _ := os.Open(ls.Path)
 	defer f.Close()
 
-	// read data to buffer
+	// read data from file
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(f)
 

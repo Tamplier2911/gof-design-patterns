@@ -18,19 +18,19 @@ func Builder() {
 
 	// query builder with fluent interface
 	const _userId = "abc_123"
-	var user string
+	var userName string
 	qb := NewQueryBuilder()
 	err := qb.
 		From(`users`).
 		Select(`user.name`).
 		Where(`user.id = ?`, _userId).
-		Find(&user).
+		Find(&userName).
 		Error
 	if err != nil {
 		fmt.Println(fmt.Errorf("error occured: %w", err))
 		return
 	}
-	fmt.Printf("Query: %s Result: %s \n", qb.Query, user)
+	fmt.Printf("Query: %s Result: %s \n", qb.Query, userName)
 
 	// builder parameter
 	SendEmailBuilderParameter(func(b *EmailBuilder) {
