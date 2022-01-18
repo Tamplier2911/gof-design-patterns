@@ -12,7 +12,7 @@ namespace Prototype
     {
         public static void Run()
         {
-            Console.WriteLine("Prototype");
+            Console.WriteLine("\nPrototype\n");
 
             // shallow clone with ICloneable
             var pa = new PersonOne(new List<string> { "John", "Smith" }, new AddressOne("City", "Street", 123));

@@ -12,7 +12,7 @@ namespace Builder
     {
         public static void Run()
         {
-            Console.WriteLine("Builder");
+            Console.WriteLine("\nBuilder\n");
 
             // regular builder with fluent interface
             var cb = new CodeBuilder("Person").

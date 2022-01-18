@@ -9,6 +9,8 @@ namespace Solid
 
         public static void Run()
         {
+            Console.WriteLine("\nLiskov Substitution\n");
+
             Rectangle rec = new Rectangle(5, 5);
             Console.WriteLine(rec);
             Console.WriteLine(GetArea(rec));

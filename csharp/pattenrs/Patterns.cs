@@ -10,6 +10,7 @@ namespace Patterns
             Builder.Main.Run();
             Factories.Main.Run();
             Prototype.Main.Run();
+            Singleton.Main.Run();
         }
     }
 

@@ -7,6 +7,8 @@ namespace Solid
     {
         public static void Run()
         {
+            Console.WriteLine("\nOpen Closed\n");
+
             // create products
             var candy = new Product("Candy", Color.Red, Size.Small);
             var dress = new Product("Dress", Color.Red, Size.Medium);

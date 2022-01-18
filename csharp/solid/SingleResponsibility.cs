@@ -9,6 +9,8 @@ namespace Solid
 
         public static void Run()
         {
+            Console.WriteLine("\nSingle Responsibility\n");
+
             // define path
             const string _path = "./solid/files/journal_entries.txt";
 

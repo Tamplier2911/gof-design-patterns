@@ -7,6 +7,8 @@ namespace Solid
     {
         public static void Run()
         {
+            Console.WriteLine("\nInterface Segregation\n");
+
             Document doc = new Document("File");
 
             // general purpose interface
@@ -14,7 +16,7 @@ namespace Solid
             mfdp.Print(doc);
             mfdp.Scan(doc);
 
-            StandartPrinter sp = new StandartPrinter();
+            StandardPrinter sp = new StandardPrinter();
             sp.Print(doc);
             // sp.Scan(doc); // will fail
 
@@ -30,7 +32,7 @@ namespace Solid
             DocumentScanner ds = new DocumentScanner();
             DocumentFax df = new DocumentFax();
 
-            MultiFunctionDocumentPrinterDeligated mfdpd = new MultiFunctionDocumentPrinterDeligated(dp, ds, df);
+            MultiFunctionDocumentPrinterDelegated mfdpd = new MultiFunctionDocumentPrinterDelegated(dp, ds, df);
             mfdpd.Print(doc);
             mfdpd.Scan(doc);
         }

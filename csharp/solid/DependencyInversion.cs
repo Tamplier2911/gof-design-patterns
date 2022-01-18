@@ -7,6 +7,8 @@ namespace Solid
     {
         public static void Run()
         {
+            Console.WriteLine("\nDependency Inversion\n");
+
             Person t = new Person("Tom");
             Robot j = new Robot("Jerry");
 
