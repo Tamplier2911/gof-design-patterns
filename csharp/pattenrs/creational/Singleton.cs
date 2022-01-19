@@ -4,9 +4,9 @@ namespace Singleton
     //
     // Motivation:  
     // For some components it only makes sense to have single instance in the system. (Repository, Factory)
-    // When constructor call is expensive and we want to restrict it to single call, provide every consumer with same instance.
+    // When constructor call is expensive and we want to restrict it to a single call, provide every consumer with same instance.
     // Prevent client from making any addion copies.
-    public class Main
+    class Main
     {
         public static void Run()
         {

@@ -14,6 +14,7 @@ namespace Program
             CreationalPatterns.Run();
 
             // Structural
+            StructuralPatterns.Run();
 
             // Behavioral
 
