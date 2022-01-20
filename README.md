@@ -23,26 +23,26 @@ GOF Design Patterns implementation in variety of programming languages.
 
 ### Structural
 
-1.  [ ] Adapter
-2.  [ ] Bridge
-3.  [ ] Composite
-4.  [ ] Decorator
-5.  [ ] Facade
-6.  [ ] Flyweight
-7.  [ ] Proxy
+1.  [x] Adapter [C#] [Go]
+2.  [ ] Bridge [C#] [Go]
+3.  [ ] Composite [C#] [Go]
+4.  [ ] Decorator [C#] [Go]
+5.  [ ] Facade [C#] [Go]
+6.  [ ] Flyweight [C#] [Go]
+7.  [ ] Proxy [C#] [Go]
 
 ### Behavioral
 
-1.  [ ] Chain of responsibility
-2.  [ ] Command
-3.  [ ] Interpreter
-4.  [ ] Iterator
-5.  [ ] Mediator
-6.  [ ] Memento
-7.  [ ] Observer
-8.  [ ] State
-9.  [ ] Strategy
-10. [ ] Template method
-11. [ ] Visitor
+1.  [ ] Chain of responsibility [C#] [Go]
+2.  [ ] Command [C#] [Go]
+3.  [ ] Interpreter [C#] [Go]
+4.  [ ] Iterator [C#] [Go]
+5.  [ ] Mediator [C#] [Go]
+6.  [ ] Memento [C#] [Go]
+7.  [ ] Observer [C#] [Go]
+8.  [ ] State [C#] [Go]
+9.  [ ] Strategy [C#] [Go]
+10. [ ] Template method [C#] [Go]
+11. [ ] Visitor [C#] [Go]
 
 <!-- ![gof-design-patterns]() -->
