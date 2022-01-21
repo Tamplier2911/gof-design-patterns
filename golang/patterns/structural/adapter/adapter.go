@@ -16,129 +16,38 @@ import (
 func Adapter() {
 	fmt.Println("Adapter")
 
-	// create raster image
-	rm := &RasterImage{
-		[]Point{
-			{X: 2, Y: 1},
-			{X: 7, Y: 1},
-			{X: 4, Y: 2},
-			{X: 5, Y: 2},
-			{X: 4, Y: 3},
-			{X: 5, Y: 3},
-		},
-	}
-	// draw raster image
-	fmt.Println(DrawImage(rm))
+	// init client
+	pr := NewImagePrinter()
 
-	// create rectangle - vector image
-	rc := NewRectangle(10, 10)
-	// create line - vector image
-	// rc := NewLine(10)
+	// init target
+	rm := NewRasterImage()
+	rm.AddPoint(NewPoint(2, 1))
+	rm.AddPoint(NewPoint(7, 1))
+	rm.AddPoint(NewPoint(4, 2))
+	rm.AddPoint(NewPoint(5, 2))
+	rm.AddPoint(NewPoint(4, 3))
+	rm.AddPoint(NewPoint(5, 3))
+
+	// use target by client
+	pr.PrintImage(rm)
+
+	// init adaptee
+	vm := NewVectorImage()
+	vm.AddLine(NewLine(0, 0, 10, 0))
+	vm.AddLine(NewLine(0, 0, 0, 10))
+	vm.AddLine(NewLine(0, 10, 10, 10))
+	vm.AddLine(NewLine(10, 0, 10, 10))
+
 	// init cache
-	cache := NewLinesCache()
-	// adapt vector image to raster image
-	rca := NewVectorToRasterAdapter(rc, cache)
-	_ = NewVectorToRasterAdapter(rc, cache)
-	_ = NewVectorToRasterAdapter(rc, cache)
-	// draw vector image adapted to raster
-	fmt.Println(DrawImage(rca))
-}
+	pc := NewPointsCache()
 
-// -- Interface given
+	// init adapter
+	via := NewVectorToRasterAdapter(vm, pc)
+	_ = NewVectorToRasterAdapter(vm, pc)
+	_ = NewVectorToRasterAdapter(vm, pc)
 
-// Line - represents line.
-type Line struct {
-	X1, Y1, X2, Y2 int
-}
-
-// VectorImage - represents image built of []Line.
-type VectorImage struct {
-	Image []Line
-}
-
-// NewLine - draws new line as VectorImage.
-func NewLine(l int) *VectorImage {
-	return &VectorImage{
-		Image: []Line{
-			{X1: 0, Y1: 0, X2: l, Y2: l},
-		},
-	}
-}
-
-// NewRectangle - draws new rectangle as VectorImage.
-func NewRectangle(w, h int) *VectorImage { // vector image is required to create rectangle
-	w -= 1
-	h -= 1
-	return &VectorImage{
-		Image: []Line{
-			{X1: 0, Y1: 0, X2: w, Y2: 0}, // bot
-			{X1: 0, Y1: 0, X2: 0, Y2: h}, // left
-			{X1: 0, Y1: h, X2: w, Y2: h}, // top
-			{X1: w, Y1: 0, X2: w, Y2: h}, // right
-		},
-	}
-}
-
-// -- Interface we have
-
-// RasterImageInterface - represets raster image interface.
-type RasterImageInterface interface {
-	GetPoints() []Point
-}
-
-// Point - represents point.
-type Point struct {
-	X, Y int
-}
-
-// RasterImage - represents image build of []Point.
-type RasterImage struct {
-	Image []Point
-}
-
-// GetPoints - gets raster image pixel points.
-func (rm *RasterImage) GetPoints() []Point {
-	return rm.Image
-}
-
-// DrawImage - draws RasterImage in console.
-func DrawImage(rm RasterImageInterface) string { // RasterImageInterface is required to print.
-
-	// get max height and max width of the image
-	maxH := 0 // y
-	maxW := 0 // x
-	for _, p := range rm.GetPoints() {
-		if p.X > maxW {
-			maxW = p.X
-		}
-		if p.Y > maxH {
-			maxH = p.Y
-		}
-	}
-
-	// create a matrix based on max height and max width values
-	mx := make([][]string, maxH+1)
-	for y := range mx {
-		mx[y] = make([]string, maxW+1)
-		// fill matrix with whitespaces
-		for x := range mx[y] {
-			mx[y][x] = " "
-		}
-	}
-
-	// range over each point in raster image
-	for _, p := range rm.GetPoints() {
-		// represent point on matrix
-		mx[p.Y][p.X] = "."
-	}
-
-	// combine represented points into a string representation
-	result := ""
-	for i := len(mx) - 1; i >= 0; i-- { // loop from back in order to create human friendly coordinate view
-		result += strings.Join(mx[i], "") + "\n"
-	}
-
-	return result
+	// use adaptee by client
+	pr.PrintImage(via)
 }
 
 // -- Adapter
@@ -146,11 +55,11 @@ func DrawImage(rm RasterImageInterface) string { // RasterImageInterface is requ
 // vectorToRasterAdapter - represents vector to raster image adapter.
 type vectorToRasterAdapter struct {
 	image []Point
-	cache LinesCacheInterface
+	cache PointsCacheInterface
 }
 
 // NewVectorToRasterAdapter - creates new instance of vector to raster image adapter.
-func NewVectorToRasterAdapter(vi *VectorImage, lc LinesCacheInterface) RasterImageInterface { // return interface
+func NewVectorToRasterAdapter(vi *VectorImage, lc PointsCacheInterface) PrintableImage { // return interface
 	va := &vectorToRasterAdapter{
 		cache: lc,
 	}
@@ -166,10 +75,9 @@ func (va *vectorToRasterAdapter) addLine(l Line) {
 
 	// try to get points from cache
 	sum := va.cache.GetSum(l)
-	points, ok := va.cache.Retrieve(sum)
-	if ok {
+	if va.cache.Found(sum) {
 		fmt.Println("got points from cache")
-		va.image = points
+		va.image = va.cache.Retrieve(sum)
 		return
 	}
 
@@ -180,7 +88,7 @@ func (va *vectorToRasterAdapter) addLine(l Line) {
 			va.image = append(va.image, Point{X: i, Y: j})
 		}
 
-		for i, j := l.X2, l.Y2; i > l.X2 && j > l.Y2; i, j = i-1, j-1 {
+		for i, j := l.X2, l.Y2; i > l.X1 && j > l.Y1; i, j = i-1, j-1 {
 			va.image = append(va.image, Point{X: i, Y: j})
 		}
 	}
@@ -208,41 +116,160 @@ func (va *vectorToRasterAdapter) GetPoints() []Point {
 	return va.image
 }
 
+// -- Adaptee
+
+// VectorImage - represents image built of []Line.
+type VectorImage struct {
+	Image []Line
+}
+
+// NewVectorImage - creates instance of new VectorImage.
+func NewVectorImage() *VectorImage {
+	return &VectorImage{Image: make([]Line, 0)}
+}
+
+// AddLine - add line to the image.
+func (rm *VectorImage) AddLine(l Line) {
+	rm.Image = append(rm.Image, l)
+}
+
+// -- Target
+
+// RasterImage - represents image build of []Point.
+type RasterImage struct {
+	Image []Point
+}
+
+// NewRasterImage - creates instance of new RasterImage.
+func NewRasterImage() *RasterImage {
+	return &RasterImage{Image: make([]Point, 0)}
+}
+
+// AddPoint - add point to the image.
+func (rm *RasterImage) AddPoint(p Point) {
+	rm.Image = append(rm.Image, p)
+}
+
+// GetPoints - gets raster image pixel points.
+func (rm *RasterImage) GetPoints() []Point {
+	return rm.Image
+}
+
+// -- Client
+
+// PrintableImage - represets printable image interface.
+type PrintableImage interface {
+	GetPoints() []Point
+}
+
+// ImagePrinter - represents printer.
+type ImagePrinter struct{}
+
+// NewImagePrinter - creates new instance of ImagePrinter.
+func NewImagePrinter() *ImagePrinter {
+	return &ImagePrinter{}
+}
+
+// PrintImage - prints image into the console.
+func (ip *ImagePrinter) PrintImage(rm PrintableImage) {
+
+	// get max height and max width of the image
+	maxH := 0 // y
+	maxW := 0 // x
+	for _, p := range rm.GetPoints() {
+		if p.Y > maxH {
+			maxH = p.Y
+		}
+		if p.X > maxW {
+			maxW = p.X
+		}
+	}
+
+	// create a matrix based on max height and max width values
+	mx := make([][]string, maxH+1)
+	for y := range mx {
+		mx[y] = make([]string, maxW+1)
+		// fill matrix with whitespaces
+		for x := range mx[y] {
+			mx[y][x] = " "
+		}
+	}
+
+	// range over each point in raster image
+	for _, p := range rm.GetPoints() {
+		// represent point on matrix
+		mx[p.Y][p.X] = "."
+	}
+
+	// combine represented points into a string representation
+	result := ""
+	for i := len(mx) - 1; i >= 0; i-- { // loop from back in order to create human friendly coordinate view
+		result += strings.Join(mx[i], "") + "\n"
+	}
+
+	fmt.Println(result)
+}
+
 // -- Cache
 
-// LinesCacheInterface - represents lines cache interface.
-type LinesCacheInterface interface {
-	GetSum(l Line) [16]byte
-	Retrieve(sum [16]byte) ([]Point, bool)
+// PointsCacheInterface - represents points cache interface.
+type PointsCacheInterface interface {
+	GetSum(l interface{}) [16]byte
+	Found(sum [16]byte) bool
+	Retrieve(sum [16]byte) []Point
 	Store(sum [16]byte, pp []Point)
 }
 
-// LinesCache - represets lines cache.
-type LinesCache struct {
+// PointsCache - represets points cache.
+type PointsCache struct {
 	Cache map[[16]byte][]Point
 }
 
-// NewLinesCache - creates new instance of LinesCache.
-func NewLinesCache() *LinesCache {
-	return &LinesCache{Cache: make(map[[16]byte][]Point)}
+// NewPointsCache - creates new instance of PointsCache.
+func NewPointsCache() *PointsCache {
+	return &PointsCache{Cache: make(map[[16]byte][]Point)}
 }
 
 // GetSum - generates md5 sum from provided line.
-func (lc *LinesCache) GetSum(l Line) [16]byte {
+func (lc *PointsCache) GetSum(l interface{}) [16]byte {
 	bs, _ := json.Marshal(l)
 	return md5.Sum(bs)
 }
 
+// Found - indicates if key was found in map.
+func (lc *PointsCache) Found(sum [16]byte) bool {
+	_, ok := lc.Cache[sum]
+	return ok
+}
+
 // Retrieve - retrieves []Point from cache from by provided sum.
-func (lc *LinesCache) Retrieve(sum [16]byte) ([]Point, bool) {
-	points, ok := lc.Cache[sum]
-	if !ok {
-		return nil, false
-	}
-	return points, true
+func (lc *PointsCache) Retrieve(sum [16]byte) []Point {
+	return lc.Cache[sum]
 }
 
 // Store - stores []point in cache by provided sum.
-func (lc *LinesCache) Store(sum [16]byte, pp []Point) {
+func (lc *PointsCache) Store(sum [16]byte, pp []Point) {
 	lc.Cache[sum] = pp
+}
+
+// -- Auxillary types
+
+// Line - represents line.
+type Line struct {
+	X1, Y1, X2, Y2 int
+}
+
+// NewLine - creates new instance of Line.
+func NewLine(x1, y1, x2, y2 int) Line {
+	return Line{x1, y1, x2, y2}
+}
+
+// Point - represents point.
+type Point struct {
+	X, Y int
+}
+
+// NewPoint - creates new instance of Point.
+func NewPoint(x, y int) Point {
+	return Point{x, y}
 }
