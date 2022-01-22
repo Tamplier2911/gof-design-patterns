@@ -43,6 +43,28 @@ namespace Adapter
 
             // use adaptee by client
             pr.PrintImage(via);
+
+            // -- generic value adapter, adapt literal value to type
+
+            // by assignment
+            var v1 = new Vector2i();
+            v1[0] = 2;
+            v1[1] = 2;
+
+            // by arguments
+            var v2 = new Vector2i(2, 2);
+
+            // sum vectors - produce new vector
+            var v3 = v1 + v2;
+            Console.WriteLine(v3);
+
+            // constructor with recursive generics
+            var vf1 = Vector3f.Create(1.1f, 2.2f, 3.3f);
+            var vf2 = Vector3f.Create(1.1f, 2.2f, 3.3f);
+
+            // sum vectors - produce new vector
+            var cf3 = vf1 + vf2;
+            Console.WriteLine(cf3);
         }
     }
 
@@ -288,5 +310,152 @@ namespace Adapter
             this.x2 = x2;
             this.y2 = y2;
         }
+    }
+
+    // -- Generic Value Adapter (adapt literal value to a type)
+
+    // IDimension - represents dimension interface.
+    public interface IDimension
+    {
+        int Value { get; }
+    }
+
+    // Dimension - represents dimension types.
+    public class Dimension
+    {
+        public class Two : IDimension
+        {
+            public int Value => 2; // implement get;
+        }
+        public class Three : IDimension
+        {
+            public int Value => 3; // implement get;
+        }
+    }
+
+    // Vector - represents generic vector class.
+    public class Vector<TSelf, T, D>
+    where D : IDimension, new()
+    where TSelf : Vector<TSelf, T, D>, new()
+    {
+        protected T[] data;
+
+        // return type of dervied object
+        public static TSelf Create(params T[] values)
+        {
+            var result = new TSelf();
+
+            var rs = new D().Value; // required array size
+            var ps = values.Length; // provided array size
+
+            // create array of required size
+            result.data = new T[rs];
+
+            // fill array with provided data
+            for (int i = 0; i < Math.Min(rs, ps); i++)
+            {
+                result.data[i] = values[i];
+            }
+            return result;
+        }
+
+        // init vector data
+        public Vector()
+        {
+            data = new T[new D().Value]; // T[2]
+        }
+
+        // init vector data and fill with values
+        public Vector(params T[] values)
+        {
+            var rs = new D().Value; // required array size
+            var ps = values.Length; // provided array size
+
+            // create array of required size
+            data = new T[rs];
+
+            // fill array with provided data
+            for (int i = 0; i < Math.Min(rs, ps); i++)
+            {
+                data[i] = values[i];
+            }
+        }
+
+        // add vector data directly
+        public T this[int index]
+        {
+            get => data[index]; // v.data[0]
+            set => data[index] = value; // v.data[0] = T
+        }
+
+        public override string ToString()
+        {
+            var result = "";
+            for (int i = 0; i < new D().Value; i++)
+            {
+                result += $"{i} - {data[i]} \n";
+            }
+            return result;
+        }
+    }
+
+    // VectorOfInt - represents in-between class of integer vector.
+    public class VectorOfInt<TSelf, D> : Vector<TSelf, int, D>
+    where D : IDimension, new()
+    where TSelf : Vector<TSelf, int, D>, new()
+    {
+        public VectorOfInt() { }
+        public VectorOfInt(params int[] values) : base(values) { }
+
+        // achieve summing vectors - v + v
+        public static TSelf operator +(VectorOfInt<TSelf, D> lhs, VectorOfInt<TSelf, D> rhs)
+        {
+            var result = new TSelf();
+            var dimension = new D().Value;
+
+            // sum vectors
+            for (int i = 0; i < dimension; i++)
+            {
+                result[i] = lhs[i] + rhs[i];
+            }
+
+            return result;
+        }
+    }
+
+    // Vector2i - represents 2dimensional vector of integers.
+    public class Vector2i : VectorOfInt<Vector2i, Dimension.Two>
+    {
+        public Vector2i() { }
+        public Vector2i(params int[] values) : base(values) { }
+    }
+
+    // VectorOfFloat - represents in-between class of float vector.
+    public class VectorOfFloat<TSelf, D> : Vector<TSelf, float, D>
+    where D : IDimension, new()
+    where TSelf : Vector<TSelf, float, D>, new()
+    {
+        // now does not need to propagate constructor
+
+        // achieve summing vectors - v + v
+        public static TSelf operator +(VectorOfFloat<TSelf, D> lhs, VectorOfFloat<TSelf, D> rhs)
+        {
+            var result = new TSelf();
+            var dimension = new D().Value;
+
+            // sum vectors
+            for (int i = 0; i < dimension; i++)
+            {
+                result[i] = lhs[i] + rhs[i];
+            }
+
+            return result;
+        }
+    }
+
+    // Vector3f - represents 3dimensional vector of floats.
+    public class Vector3f : VectorOfFloat<Vector3f, Dimension.Three>
+    {
+        // now does not need to propagate constructor
     }
 }
