@@ -113,7 +113,7 @@ type KinshipsViewer interface {
 
 // -- lower level module
 
-// Search - represent search mechanism (low lvl module).
+// Search - represents search mechanism (low lvl module).
 type Search struct {
 	// Kinships *Kinships
 	Viewer KinshipsViewer

@@ -22,6 +22,7 @@ namespace Patterns
         public static void Run()
         {
             Adapter.Main.Run();
+            Bridge.Main.Run();
         }
     }
 

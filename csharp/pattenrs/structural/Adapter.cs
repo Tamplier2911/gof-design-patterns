@@ -70,6 +70,7 @@ namespace Adapter
 
     // -- Adapter
 
+    // VectorToRasterAdapter - represents vector to raster image adapter.
     public class VectorToRasterAdapter : IPrintable
     {
         private IPointsCache Cache;

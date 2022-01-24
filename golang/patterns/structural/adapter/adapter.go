@@ -111,7 +111,7 @@ func (va *vectorToRasterAdapter) addLine(l Line) {
 	va.cache.Store(sum, va.image)
 }
 
-// GetPoints - gets raster image pixel points. // implement RasterImageInterface
+// GetPoints - gets raster image pixel points (implement PrintableImage).
 func (va *vectorToRasterAdapter) GetPoints() []Point {
 	return va.image
 }

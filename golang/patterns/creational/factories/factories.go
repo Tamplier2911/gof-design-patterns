@@ -84,7 +84,7 @@ const (
 	DepartmentEngineering Department = "engineering"
 )
 
-// Role - represent employee role.
+// Role - represents employee role.
 type Role string
 
 const (
@@ -99,7 +99,7 @@ type EmployeeFactory struct {
 	Role       Role
 }
 
-// NewEmployeeFactoryS - represents instance of new Employee structural factory.
+// NewEmployeeFactoryS - s instance of new Employee structural factory.
 func NewEmployeeFactoryS(department Department, role Role) *EmployeeFactory {
 	return &EmployeeFactory{Department: department, Role: role}
 }
