@@ -20,7 +20,7 @@ namespace Builder
                 AddField("Age", "int");
             Console.WriteLine(cb);
 
-            // fluent builder interface and inheritance (using recursive generics)
+            // builder with fluent interface and inheritance (using recursive generics)
             var person = Person.New.
                 Called("Tommy").
                 WorkAs("Creator").

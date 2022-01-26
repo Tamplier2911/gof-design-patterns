@@ -13,7 +13,7 @@ import "fmt"
 func Bridge() {
 	fmt.Println("Bridge")
 
-	// init implementors
+	// init concreate implementors
 	rrn := NewRasterRenderer()
 	vrn := NewVectorRenderer()
 

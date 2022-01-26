@@ -27,7 +27,7 @@ func Builder() {
 		Find(&userName).
 		Error
 	if err != nil {
-		fmt.Println(fmt.Errorf("error occured: %w", err))
+		fmt.Println(fmt.Errorf("error occurred: %w", err))
 		return
 	}
 	fmt.Printf("Query: %s Result: %s \n", qb.Query, userName)
