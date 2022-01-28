@@ -41,7 +41,7 @@ namespace Composite
             // represent tree-structured data
             Console.WriteLine(dr1);
 
-            // Neural Networks
+            // Neural Network
 
             // create neurons
             var n1 = new Neuron();
@@ -68,8 +68,10 @@ namespace Composite
         {
             Name = name;
         }
-        public abstract void Add(Component c);
-        public abstract void Remove(Component c);
+        // public abstract void Add(Component c);
+        // public abstract void Remove(Component c);
+        public virtual void Add(Component c) { }
+        public virtual void Remove(Component c) { }
     }
 
     // -- Composite
@@ -115,14 +117,6 @@ namespace Composite
     public class File : Component
     {
         public File(string name) : base(name) { }
-        public override void Add(Component c)
-        {
-            throw new NotImplementedException();
-        }
-        public override void Remove(Component c)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     // -- Neural Network
