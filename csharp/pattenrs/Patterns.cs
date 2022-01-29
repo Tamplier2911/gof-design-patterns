@@ -24,6 +24,7 @@ namespace Patterns
             Adapter.Main.Run();
             Bridge.Main.Run();
             Composite.Main.Run();
+            Decorator.Main.Run();
         }
     }
 

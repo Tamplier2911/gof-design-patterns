@@ -25,8 +25,8 @@ GOF Design Patterns implementation in variety of programming languages.
 
 1.  [x] Adapter [C#] [Go]
 2.  [x] Bridge [C#] [Go]
-3.  [ ] Composite [C#] [Go]
-4.  [ ] Decorator [C#] [Go]
+3.  [x] Composite [C#] [Go]
+4.  [x] Decorator [C#] [Go]
 5.  [ ] Facade [C#] [Go]
 6.  [ ] Flyweight [C#] [Go]
 7.  [ ] Proxy [C#] [Go]
