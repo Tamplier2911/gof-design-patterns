@@ -18,14 +18,22 @@ namespace Decorator
 
             // Decorator
 
+            // create component
             var bp = new BulgarianPizza("Banica", 16);
+            // decorate component
             var bpc = new CheesePizza(bp, 3);
-            Console.WriteLine($"{bpc.Name} - ${bpc.Price}");
+            // review
+            Console.WriteLine($"{bpc.GetName()} ${bpc.GetPrice()}");
+            Console.WriteLine(bpc.GetComponent());
 
+            // create component
             var ip = new ItalianPizza("Margherita", 20);
-            var ipc = new CheesePizza(ip, 3);
-            var ipct = new TomatoPizza(ipc, 2);
-            Console.WriteLine($"{ipct.Name} - ${ipct.Price}");
+            // decorate component
+            var ipc = new CheesePizza(ip, 4);
+            var ipct = new TomatoPizza(ipc, 3);
+            // review
+            Console.WriteLine($"{ipct.GetName()} ${ipct.GetPrice()}");
+            Console.WriteLine(ipct.GetComponent());
         }
     }
 
@@ -34,16 +42,18 @@ namespace Decorator
     // Pizza - represents an abstraction (component).
     public abstract class Pizza
     {
-        public string Origin { get; private set; }
-        public string Name { get; private set; }
-        public int Price { get; private set; }
+        internal string Origin { get; set; }
+        protected string Name { get; set; }
+        protected int Price { get; set; }
         public Pizza(string origin, string name, int price)
         {
             Origin = origin;
             Name = name;
             Price = price;
         }
+        public abstract string GetName();
         public abstract int GetPrice();
+        public abstract string GetComponent(); // decorator test method
     }
 
     // -- Concreate Component 
@@ -51,24 +61,44 @@ namespace Decorator
     // ItalianPizza - represents concreate implementation of (component) Pizza.
     public class ItalianPizza : Pizza
     {
-        private const string Italian = "Italian";
-        public ItalianPizza(string name, int price) : base(Italian, name, price) { }
+        private const string _italian = "Italian";
+        public ItalianPizza(string name, int price) : base(_italian, name, price) { }
+
+        public override string GetName()
+        {
+            return Name;
+        }
 
         public override int GetPrice()
         {
             return Price;
+        }
+
+        public override string GetComponent()
+        {
+            return Origin;
         }
     }
 
     // BulgarianPizza - represents concreate implementation of (component) Pizza.
     public class BulgarianPizza : Pizza
     {
-        private const string Bulgarian = "Bulgarian";
-        public BulgarianPizza(string name, int price) : base(Bulgarian, name, price) { }
+        private const string _bulgarian = "Bulgarian";
+        public BulgarianPizza(string name, int price) : base(_bulgarian, name, price) { }
+
+        public override string GetName()
+        {
+            return Name;
+        }
 
         public override int GetPrice()
         {
             return Price;
+        }
+
+        public override string GetComponent()
+        {
+            return Origin;
         }
     }
 
@@ -77,10 +107,14 @@ namespace Decorator
     // PizzaDecorator - represents an abstraction for decorator.
     public abstract class PizzaDecorator : Pizza
     {
-        protected Pizza Pizza; // reference to component SetComponent
-        public PizzaDecorator(Pizza pizza, string name, int price) : base(pizza.Origin, name, price)
+        protected Pizza pizza; // reference to component SetComponent
+        protected string name;
+        protected int price;
+        public PizzaDecorator(Pizza pizza, string name, int price) : base(pizza.Origin, pizza.GetName(), pizza.GetPrice())
         {
-            Pizza = pizza;
+            this.pizza = pizza;
+            this.name = name;
+            this.price = price;
         }
     }
 
@@ -89,24 +123,44 @@ namespace Decorator
     // TomatoPizza - represents concreate implementation of (decorator) PizzaDecorator.
     public class TomatoPizza : PizzaDecorator
     {
-        private const string Cheese = "Tomatoes";
-        public TomatoPizza(Pizza pizza, int price) : base(pizza, pizza.Name + $", with {Cheese}", pizza.Price + price) { }
+        private const string _tomatoes = "Tomatoes";
+        public TomatoPizza(Pizza pizza, int price) : base(pizza, _tomatoes, price) { }
+
+        public override string GetName()
+        {
+            return $"{pizza.GetName()}, with {name}";
+        }
 
         public override int GetPrice()
         {
-            return Price;
+            return pizza.GetPrice() + price;
+        }
+
+        public override string GetComponent()
+        {
+            return $"{name}({pizza.GetComponent()})";
         }
     }
 
     // CheesePizza - represents concreate implementation of (decorator) PizzaDecorator.
     public class CheesePizza : PizzaDecorator
     {
-        private const string Cheese = "Cheese";
-        public CheesePizza(Pizza pizza, int price) : base(pizza, pizza.Name + $", with {Cheese}", pizza.Price + price) { }
+        private const string _cheese = "Cheese";
+        public CheesePizza(Pizza pizza, int price) : base(pizza, _cheese, price) { }
+
+        public override string GetName()
+        {
+            return $"{pizza.GetName()}, with {name}";
+        }
 
         public override int GetPrice()
         {
-            return Price;
+            return pizza.GetPrice() + price;
+        }
+
+        public override string GetComponent()
+        {
+            return $"{name}({pizza.GetComponent()})";
         }
     }
 }

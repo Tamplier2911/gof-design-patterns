@@ -7,6 +7,7 @@ import (
 	"github.com/Tamplier2911/gof-design-patterns/golang/patterns/structural/bridge"
 	"github.com/Tamplier2911/gof-design-patterns/golang/patterns/structural/composite"
 	"github.com/Tamplier2911/gof-design-patterns/golang/patterns/structural/decorator"
+	"github.com/Tamplier2911/gof-design-patterns/golang/patterns/structural/facade"
 )
 
 func Structural() {
@@ -16,4 +17,5 @@ func Structural() {
 	bridge.Bridge()
 	composite.Composite()
 	decorator.Decorator()
+	facade.Facade()
 }

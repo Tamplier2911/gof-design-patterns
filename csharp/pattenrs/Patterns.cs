@@ -25,6 +25,7 @@ namespace Patterns
             Bridge.Main.Run();
             Composite.Main.Run();
             Decorator.Main.Run();
+            Facade.Main.Run();
         }
     }
 
