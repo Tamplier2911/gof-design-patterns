@@ -6,21 +6,27 @@ namespace Facade
     // provide simple API for complicated underlying systems
     // allows to define one point of interaction between the client and complex system
     // reduce the number of dependencies between the client and a complex system
-
     class Main
     {
         public static void Run()
         {
             Console.WriteLine("\nFacade\n");
 
-            // Facade 
+            // Facade - IDE
 
             // init facade
-            var ide = new IDEFacade(new TextEditor(), new Compiler(), new Runtime(), new CommandLine());
+            var ide = new IDEFacade(new TextEditor(), new Compiler(), new Runtime(), new IDEConsole());
             // init client
             var client = new Developer(ide);
-            // create application
+            // create app
             client.CreateApplication("Hello, world!");
+
+            // Facade - Magic Square
+
+            // init magic square generator
+            var sg = new MagicSquareGenerator(new Generator(), new Splitter(), new Verifier());
+            // generate magic square
+            // var ms = sg.Generate(3);
         }
     }
 
@@ -41,16 +47,13 @@ namespace Facade
 
         public string WriteText(string text)
         {
-            if (Stack.Count > 0)
-            {
-                return Current = Stack.Last() + text;
-            }
-            return Current = text;
+            return Current += text;
         }
 
         public string SaveText()
         {
             Stack.Add(Current);
+            Current = "";
             return Stack.Last();
         }
     }
@@ -73,36 +76,36 @@ namespace Facade
     // IRuntime - represents Runtime interface.
     public interface IRuntime
     {
-        public string Execute(string compiledCode);
+        public string Execute(string bin);
     }
-
 
     // Runtime - represents runtime.
     public class Runtime : IRuntime
     {
-        public string Execute(string compiledCode)
+        public string Execute(string bin)
         {
-            return $"executed({compiledCode})";
+            return $"executed({bin})";
         }
     }
 
-    // ICommandLine - represents command line interface.
-    public interface ICommandLine
+    // IConsole - represents console interface.
+    public interface IConsole
     {
-        public void Output(string executionResult);
+        public void Output(string result);
     }
 
-    // CommandLine - represents command line.
-    public class CommandLine : ICommandLine
+    // IDEConsole - represents console.
+    public class IDEConsole : IConsole
     {
-        public void Output(string executionResult)
+        public void Output(string result)
         {
-            Console.WriteLine($"output({executionResult})");
+            Console.WriteLine($"output({result})");
         }
     }
 
     // -- Facade
 
+    // IDE - represents IDE interface.
     public interface IDE
     {
         public void Run(string code);
@@ -114,14 +117,14 @@ namespace Facade
         protected ITextEditor editor;
         protected ICompiler compiler;
         protected IRuntime runtime;
-        protected ICommandLine cmd;
+        protected IConsole console;
 
-        public IDEFacade(ITextEditor editor, ICompiler compiler, IRuntime runtime, ICommandLine cmd)
+        public IDEFacade(ITextEditor editor, ICompiler compiler, IRuntime runtime, IConsole console)
         {
             this.editor = editor;
             this.compiler = compiler;
             this.runtime = runtime;
-            this.cmd = cmd;
+            this.console = console;
         }
 
         public void Run(string appCode)
@@ -137,7 +140,7 @@ namespace Facade
             var result = runtime.Execute(bin);
 
             // output result
-            cmd.Output(result);
+            console.Output(result);
         }
     }
 
@@ -155,6 +158,142 @@ namespace Facade
         public void CreateApplication(string appCode)
         {
             tool.Run(appCode);
+        }
+    }
+
+    // -- Magic Square Example
+
+    // -- Complex Underlying Systems
+
+    // IGenerator - represents slice generator interface.
+    public interface IGenerator
+    {
+        public List<int> Generate(int count);
+    }
+
+    // Generator - generates random slice of integers.
+    public class Generator : IGenerator
+    {
+        private static readonly Random random = new Random();
+
+        public List<int> Generate(int count)
+        {
+            return Enumerable.Range(0, count)
+              .Select(_ => random.Next(1, 6))
+              .ToList();
+        }
+    }
+
+    // ISplitter - represents splitter interface.
+    public interface ISplitter
+    {
+        public List<List<int>> Split(List<List<int>> array);
+    }
+
+    // Splitter - splits square matrix into individual parallel and diagonal pieces.
+    public class Splitter : ISplitter
+    {
+        public List<List<int>> Split(List<List<int>> array)
+        {
+            var result = new List<List<int>>();
+
+            var rowCount = array.Count;
+            var colCount = array[0].Count;
+
+            // get the rows
+            for (int r = 0; r < rowCount; ++r)
+            {
+                var theRow = new List<int>();
+                for (int c = 0; c < colCount; ++c)
+                    theRow.Add(array[r][c]);
+                result.Add(theRow);
+            }
+
+            // get the columns
+            for (int c = 0; c < colCount; ++c)
+            {
+                var theCol = new List<int>();
+                for (int r = 0; r < rowCount; ++r)
+                    theCol.Add(array[r][c]);
+                result.Add(theCol);
+            }
+
+            // now the diagonals
+            var diag1 = new List<int>();
+            var diag2 = new List<int>();
+            for (int c = 0; c < colCount; ++c)
+            {
+                for (int r = 0; r < rowCount; ++r)
+                {
+                    if (c == r)
+                        diag1.Add(array[r][c]);
+                    var r2 = rowCount - r - 1;
+                    if (c == r2)
+                        diag2.Add(array[r][c]);
+                }
+            }
+
+            result.Add(diag1);
+            result.Add(diag2);
+
+            return result;
+        }
+    }
+
+    // IVerifier - represents verifier interface.
+    public interface IVerifier
+    {
+        public bool Verify(List<List<int>> array);
+    }
+
+    // Verifier - verifies that it is indeed a maginc square.
+    public class Verifier : IVerifier
+    {
+        public bool Verify(List<List<int>> array)
+        {
+            if (!array.Any()) return false;
+
+            var expected = array.First().Sum();
+
+            return array.All(t => t.Sum() == expected);
+        }
+    }
+
+    // -- Facade
+
+    // MagicSquareGenerator - represents facade, that leverage underlying systems to explode simple API.
+    public class MagicSquareGenerator
+    {
+        private IGenerator generator;
+        private ISplitter splitter;
+        private IVerifier verifier;
+
+        public MagicSquareGenerator(IGenerator generator, ISplitter splitter, IVerifier verifier)
+        {
+            this.generator = generator;
+            this.splitter = splitter;
+            this.verifier = verifier;
+        }
+
+        public List<List<int>> Generate(int size)
+        {
+            // generate data
+            List<List<int>> lists = new List<List<int>>();
+            for (int i = 0; i < size; i++)
+            {
+                lists.Add(generator.Generate(size));
+            }
+
+            // split data
+            var split = splitter.Split(lists);
+
+            // verify data
+            if (!verifier.Verify(split))
+            {
+                return Generate(size);
+            }
+
+            return lists;
         }
     }
 }
