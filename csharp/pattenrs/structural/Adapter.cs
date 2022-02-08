@@ -285,7 +285,7 @@ namespace Adapter
         }
     }
 
-    // -- Auxillary classes
+    // -- Auxiliary classes
 
     // Point - represents point.
     public class Point

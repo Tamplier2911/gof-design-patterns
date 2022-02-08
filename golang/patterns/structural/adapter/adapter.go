@@ -252,7 +252,7 @@ func (lc *PointsCache) Store(sum [16]byte, pp []Point) {
 	lc.Cache[sum] = pp
 }
 
-// -- Auxillary types
+// -- Auxiliary types
 
 // Line - represents line.
 type Line struct {
