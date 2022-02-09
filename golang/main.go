@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/Tamplier2911/gof-design-patterns/golang/patterns"
 	"github.com/Tamplier2911/gof-design-patterns/golang/solid"
 )

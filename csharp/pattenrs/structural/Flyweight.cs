@@ -62,39 +62,48 @@ namespace Flyweight
         protected List<Line> lines = new List<Line>();
         public Figure(string name) { this.name = name; }
 
+        public abstract string GetName();
+        public abstract void AddLine(Line line);
+
         // Draw - operates on extrinsic state, which can vary (position, color, etc..).
         public abstract void Draw(string color, float x, float y);
-        public abstract void AddLine(Line line);
     }
 
     // -- Concreate Flyweights
 
-    // SquareFigure - represents concreate implementation of flyweight.
+    // SquareFigure - represents concreate flyweight implementation.
     public class SquareFigure : Figure
     {
-        public SquareFigure(string name) : base(name) { }
-
-        public override void AddLine(Line line)
+        const string _square = "square";
+        public SquareFigure() : base(_square)
         {
-            lines.Add(line);
+            AddLine(new Line(0, 0, 5, 0));
+            AddLine(new Line(0, 5, 5, 5));
+            AddLine(new Line(0, 0, 0, 5));
+            AddLine(new Line(5, 0, 5, 5));
         }
 
+        public override string GetName() => name;
+        public override void AddLine(Line line) => lines.Add(line);
         public override void Draw(string color, float x, float y)
         {
             Console.WriteLine($"Drawing {color} {name} at position x:{x} y:{y}.");
         }
     }
 
-    // TriangleFigure - represents concreate implementation of flyweight.
+    // TriangleFigure - represents concreate flyweight implementation.
     public class TriangleFigure : Figure
     {
-        public TriangleFigure(string name) : base(name) { }
-
-        public override void AddLine(Line line)
+        const string _triangle = "triangle";
+        public TriangleFigure() : base(_triangle)
         {
-            lines.Add(line);
+            AddLine(new Line(0, 0, 0, 5));
+            AddLine(new Line(0, 0, 5, 0));
+            AddLine(new Line(0, 5, 5, 0));
         }
 
+        public override string GetName() => name;
+        public override void AddLine(Line line) => lines.Add(line);
         public override void Draw(string color, float x, float y)
         {
             Console.WriteLine($"Drawing {color} {name} at position x:{x} y:{y}.");
@@ -106,11 +115,8 @@ namespace Flyweight
     {
         public CustomFigure(string name) : base(name) { }
 
-        public override void AddLine(Line line)
-        {
-            lines.Add(line);
-        }
-
+        public override string GetName() => name;
+        public override void AddLine(Line line) => lines.Add(line);
         public override void Draw(string color, float x, float y)
         {
             Console.WriteLine($"Drawing {color} {name} at position x:{x} y:{y}.");
@@ -127,36 +133,29 @@ namespace Flyweight
         // Constructor - initializes default factory state.
         public FigureFactory()
         {
-            var square = new SquareFigure("square");
-            square.AddLine(new Line(0, 0, 5, 0));
-            square.AddLine(new Line(0, 5, 5, 5));
-            square.AddLine(new Line(0, 0, 0, 5));
-            square.AddLine(new Line(5, 0, 5, 5));
-            figures["square"] = square;
+            var square = new SquareFigure();
+            figures[square.GetName()] = square;
 
-            var triangle = new TriangleFigure("triangle");
-            triangle.AddLine(new Line(0, 0, 0, 5));
-            triangle.AddLine(new Line(0, 0, 5, 0));
-            triangle.AddLine(new Line(0, 5, 5, 0));
-            figures["triangle"] = triangle;
+            var triangle = new TriangleFigure();
+            figures[triangle.GetName()] = triangle;
         }
 
-        // GetFigure - retrieves figure from state if exists, else creates new custom figure.
-        public Figure GetFigure(string figure)
+        // GetFigure - retrieves figure from state or creates new custom figure.
+        public Figure GetFigure(string name)
         {
             // return figure if exists
-            if (figures.ContainsKey(figure))
+            if (figures.ContainsKey(name))
             {
-                Console.WriteLine($"reused {figure} figure");
-                return figures[figure];
+                Console.WriteLine($"reused {name} figure");
+                return figures[name];
             }
 
             // create new custom figure
-            var fg = new CustomFigure(figure);
-            figures[figure] = fg;
-            Console.WriteLine($"created new {figure} figure");
+            var fg = new CustomFigure(name);
+            figures[fg.GetName()] = fg;
+            Console.WriteLine($"created new {name} figure");
 
-            return figures[figure];
+            return figures[fg.GetName()];
         }
 
         public override string ToString()
