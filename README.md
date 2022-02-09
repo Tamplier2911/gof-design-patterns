@@ -28,7 +28,7 @@ GOF Design Patterns implementation in variety of programming languages.
 3.  [x] Composite [C#] [Go]
 4.  [x] Decorator [C#] [Go]
 5.  [x] Facade [C#] [Go]
-6.  [ ] Flyweight [C#] [Go]
+6.  [x] Flyweight [C#] [Go]
 7.  [ ] Proxy [C#] [Go]
 
 ### Behavioral
