@@ -11,7 +11,7 @@ import (
 // composite is used to treat individual objects and composite objects uniformly
 
 func Composite() {
-	fmt.Println("Composite")
+	fmt.Println("\nComposite")
 
 	// Composite
 

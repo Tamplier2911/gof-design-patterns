@@ -11,7 +11,7 @@ import "fmt"
 // - can be hierarchy of factories (Abstract Factory)
 
 func Factories() {
-	fmt.Println("Factories")
+	fmt.Println("\nFactories")
 
 	// factory function / constructor
 	p1 := NewFrenchPerson("Charles", "de Gaulle")

@@ -27,6 +27,7 @@ namespace Patterns
             Decorator.Main.Run();
             Facade.Main.Run();
             Flyweight.Main.Run();
+            Proxy.Main.Run();
         }
     }
 

@@ -14,7 +14,7 @@ import (
 // Builder provides API for constructing objects step by step.
 
 func Builder() {
-	fmt.Println("Builder")
+	fmt.Println("\nBuilder")
 
 	// query builder with fluent interface
 	const _userId = "abc_123"

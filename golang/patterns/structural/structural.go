@@ -9,10 +9,11 @@ import (
 	"github.com/Tamplier2911/gof-design-patterns/golang/patterns/structural/decorator"
 	"github.com/Tamplier2911/gof-design-patterns/golang/patterns/structural/facade"
 	"github.com/Tamplier2911/gof-design-patterns/golang/patterns/structural/flyweight"
+	"github.com/Tamplier2911/gof-design-patterns/golang/patterns/structural/proxy"
 )
 
 func Structural() {
-	fmt.Println("Structural")
+	fmt.Println("\nStructural")
 
 	adapter.Adapter()
 	bridge.Bridge()
@@ -20,4 +21,5 @@ func Structural() {
 	decorator.Decorator()
 	facade.Facade()
 	flyweight.Flyweight()
+	proxy.Proxy()
 }

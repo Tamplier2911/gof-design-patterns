@@ -16,7 +16,7 @@ import (
 // We make a copy (deep clone) of the prototype and customized it - cloning must be convenient
 
 func Prototype() {
-	fmt.Println("Prototype")
+	fmt.Println("\nPrototype")
 
 	// create person
 	p1 := NewPerson(

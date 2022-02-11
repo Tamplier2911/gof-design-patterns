@@ -11,7 +11,7 @@ import "fmt"
 // types: shape * type = RasterCircle, VectorCircle, RasterSquare, VectorSquare
 
 func Bridge() {
-	fmt.Println("Bridge")
+	fmt.Println("\nBridge")
 
 	// init concreate implementors
 	rrn := NewRasterRenderer()

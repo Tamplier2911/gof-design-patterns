@@ -13,7 +13,7 @@ import (
 // Prevent client from making any addion copies.
 
 func Singleton() {
-	fmt.Println("Singleton")
+	fmt.Println("\nSingleton")
 
 	// singleton
 	sdb := NewSingletoneDatabase() // constructed
