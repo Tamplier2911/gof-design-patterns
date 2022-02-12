@@ -19,7 +19,7 @@ namespace Factories
     {
         public static void Run()
         {
-            Console.WriteLine("\nFactories\n");
+            Console.WriteLine("\nFactories");
 
             // factory method
             var p1 = PointOne.NewCartesianPoint(5.0, 5.0);

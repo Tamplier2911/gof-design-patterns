@@ -13,7 +13,7 @@ namespace Composite
     {
         public static void Run()
         {
-            Console.WriteLine("\nComposite\n");
+            Console.WriteLine("\nComposite");
 
             // Composite
 

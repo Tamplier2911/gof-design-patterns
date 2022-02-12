@@ -7,17 +7,8 @@ namespace Program
     {
         static void Main(string[] args)
         {
-            // Solid Principles
-            AllPrinciple.Run();
-
-            // Creational
-            CreationalPatterns.Run();
-
-            // Structural
-            StructuralPatterns.Run();
-
-            // Behavioral
-
+            SolidPrinciples.Run();
+            DesignPatterns.Run();
         }
     }
 }

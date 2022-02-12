@@ -10,7 +10,7 @@ namespace Singleton
     {
         public static void Run()
         {
-            Console.WriteLine("\nSingleton\n");
+            Console.WriteLine("\nSingleton");
 
             // singleton
             var sdb = SingletonDatabase.Instance;

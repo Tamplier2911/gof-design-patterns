@@ -1,9 +1,11 @@
 namespace Solid
 {
-    class AllPrinciple
+    class SolidPrinciples
     {
         public static void Run()
         {
+            Console.WriteLine("Solid");
+
             SingleResponsibility.Run();
             OpenClosed.Run();
             LiskovSubstitution.Run();
