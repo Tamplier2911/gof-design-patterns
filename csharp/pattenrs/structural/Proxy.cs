@@ -27,20 +27,20 @@ namespace Proxy
             });
 
             // init client
-            var u = new User("Albert", true);
+            var s = new Student("Albert");
 
             // use subject by the client
-            u.ReadBook(book);
+            s.ReadBook(book);
 
             // init logger proxy
             var lbp = new LoggerBookProxy(book); // logs current page and date
             // init caching proxy
             var cbp = new CacheBookProxy(lbp);   // caching pages
             // init protection proxy
-            var bpp = new PreviewBookProxy(cbp); // in preview mode only 3 pages are readable
+            var pbp = new PreviewBookProxy(cbp, 2); // in preview mode only few pages are readable
 
-            // use subject through proxies by a client
-            u.ReadBook(bpp);
+            // use subject by the client through set of proxies
+            s.ReadBook(pbp);
 
         }
     }
@@ -123,7 +123,7 @@ namespace Proxy
                 Console.WriteLine("Retrieved page form cache.");
                 return cache[page];
             }
-            // cache page
+            // save page to cache
             Console.WriteLine("Saved page to cache.");
             cache[page] = book.ReadPage(page);
 
@@ -135,7 +135,8 @@ namespace Proxy
     public class PreviewBookProxy : IBook
     {
         private IBook book;
-        public PreviewBookProxy(IBook book) { this.book = book; }
+        private int pages;
+        public PreviewBookProxy(IBook book, int pages) { this.book = book; this.pages = pages; }
 
         public string GetBookTitle()
         {
@@ -144,28 +145,23 @@ namespace Proxy
 
         public string ReadPage(int page)
         {
-            // in preview mode can only access 3 book pages
-            if (page > 2) return "";
+            // in preview mode can only access few book pages
+            if (page > pages) return "";
             return book.ReadPage(page);
         }
     }
 
     // -- Client
 
-    // User - represents user (a client that going to use proxy).
-    public class User
+    // Student - represents client that going to use subject.
+    public class Student
     {
         private string name;
-        private bool reader;
-        public User(string name, bool reader)
-        {
-            this.name = name;
-            this.reader = reader;
-        }
+        public Student(string name) { this.name = name; }
         public string GetName() => name;
-        public bool IsReader() => reader;
         public void ReadBook(IBook book)
         {
+            Console.WriteLine($"Reading book: {book.GetBookTitle()}");
             for (int i = 0; ; i++)
             {
                 var page = book.ReadPage(i);
