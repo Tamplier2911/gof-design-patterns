@@ -10,7 +10,7 @@ import "fmt"
 // we need to interact with existing structures
 
 func Decorator() {
-	fmt.Println("Decorator")
+	fmt.Println("\nDecorator")
 
 	// create component
 	bp := NewBulgarianPizza("Banica", 16)

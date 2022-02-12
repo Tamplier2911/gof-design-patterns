@@ -13,7 +13,7 @@ import (
 //
 
 func Flyweight() {
-	fmt.Println("Flyweight")
+	fmt.Println("\nFlyweight")
 
 	// utility method
 	inc := func(i *float64) float64 { *i++; return *i }

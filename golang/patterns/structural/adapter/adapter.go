@@ -14,7 +14,7 @@ import (
 // Adapter is a construct which dapats an existing interface X to conform to the required interface Y.
 
 func Adapter() {
-	fmt.Println("Adapter")
+	fmt.Println("\nAdapter")
 
 	// init client
 	pr := NewImagePrinter()

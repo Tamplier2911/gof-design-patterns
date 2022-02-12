@@ -15,7 +15,7 @@ import (
 // reduce the number of dependencies between the client and a complex system
 
 func Facade() {
-	fmt.Println("Facade")
+	fmt.Println("\nFacade")
 
 	// Facade - IDE
 
