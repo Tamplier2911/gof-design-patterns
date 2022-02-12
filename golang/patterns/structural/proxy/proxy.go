@@ -40,7 +40,7 @@ func Proxy() {
 	// init caching proxy
 	cbp := NewCacheBookProxy(lbp) // caching pages
 	// init protection proxy
-	pbp := NewPreviewBookProxy(cbp, 2) // in preview mode only three pages are available
+	pbp := NewPreviewBookProxy(cbp, 2) // in preview mode only few pages are available
 
 	// use subject by the client through set of proxies
 	s.ReadBook(pbp)
