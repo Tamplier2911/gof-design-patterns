@@ -1,5 +1,8 @@
 namespace Solid
 {
+    ///
+    /// <summary>Class <c>SolidPrinciples</c> invokes all SOLID principles for testing purposes.</summary>
+    ///
     class SolidPrinciples
     {
         public static void Run()

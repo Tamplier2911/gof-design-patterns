@@ -4,6 +4,9 @@ using Behavioral;
 
 namespace Patterns
 {
+    ///
+    /// <summary>Class <c>DesignPatterns</c> invokes all  patterns for testing purposes. </summary>
+    ///
     class DesignPatterns
     {
         public static void Run()

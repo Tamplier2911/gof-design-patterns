@@ -1,6 +1,11 @@
 namespace Behavioral
 {
-    // Behavioral patterns: all different no certain theme
+    ///
+    /// <summary>
+    /// Class <c>BehavioralPatterns</c> invokes all Behavioral patterns for testing purposes.
+    /// Behavioral patterns: are all different, and have no certain theme
+    /// </summary>
+    ///
     class BehavioralPatterns
     {
         public static void Run()

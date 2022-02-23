@@ -1,8 +1,12 @@
 namespace Solid
 {
-    // I - Interface Segregation 
-    // 1. specific interfaces are better than general purpose ones
-    // 2. classes should not implement methods they don't need
+    ///
+    /// <summary>
+    /// Class <c>InterfaceSegregation</c> represents interface segregation principle usecase.
+    /// 1. specific interfaces are better than general purpose ones
+    /// 2. classes should not implement methods they don't need
+    /// </summary>
+    ///
     class InterfaceSegregation
     {
         public static void Run()
@@ -38,6 +42,7 @@ namespace Solid
         }
     }
 
+    /// <summary>Class <c>Document</c> document entity.</summary>
     class Document
     {
         public string Name;
@@ -48,7 +53,7 @@ namespace Solid
         }
     }
 
-    // General purpose interface.
+    /// <summary>Interface <c>IMachine</c> represents general purpose interface.</summary>
     interface IMachine<T>
     {
         void Print(T t);
@@ -56,7 +61,7 @@ namespace Solid
         void Fax(T t);
     }
 
-    // MultiFunctionDocumentPrinter capable to perform multiple operations on documents.
+    /// <summary>Class <c>MultiFunctionDocumentPrinter</c> capable to perform multiple operations on documents.</summary>
     class MultiFunctionDocumentPrinter : IMachine<Document>
     {
         public void Print(Document d)
@@ -73,7 +78,7 @@ namespace Solid
         }
     }
 
-    // StandardPrinter capable to perform printing operations on documents.
+    /// <summary>Class <c>StandardPrinter</c> capable to perform printing operations on documents.</summary>
     class StandardPrinter : IMachine<Document>
     {
         public void Print(Document d)
@@ -92,29 +97,29 @@ namespace Solid
         }
     }
 
-    // Specific interface.
-    interface Printer<T>
+    /// <summary>Interface <c>IPrinter</c> represents specific interface.</summary>
+    interface IPrinter<T>
     {
         void Print(T t);
     }
 
-    // Specific interface.
-    interface Scanner<T>
+    /// <summary>Interface <c>IScanner</c> represents specific interface.</summary>
+    interface IScanner<T>
     {
         void Scan(T t);
     }
 
-    // Specific interface.
-    interface Fax<T>
+    /// <summary>Interface <c>IFax</c> represents specific interface.</summary>
+    interface IFax<T>
     {
         void Fax(T t);
     }
 
-    // Combinator interface.
-    interface MultiFunctionPrinter<T> : Printer<T>, Scanner<T>, Fax<T> { }
+    /// <summary>Interface <c>IMultiFunctionPrinter</c> represents combinator interface.</summary>
+    interface IMultiFunctionPrinter<T> : IPrinter<T>, IScanner<T>, IFax<T> { }
 
-    // DocumentPrinter capable to perform printing operations on documents.
-    class DocumentPrinter : Printer<Document>
+    /// <summary>Class <c>DocumentPrinter</c> capable to perform printing operations on documents.</summary>
+    class DocumentPrinter : IPrinter<Document>
     {
         public void Print(Document d)
         {
@@ -122,8 +127,8 @@ namespace Solid
         }
     }
 
-    // DocumentScanner capable to perform scanning operations on documents.
-    class DocumentScanner : Scanner<Document>
+    /// <summary>Class <c>DocumentScanner</c> capable to perform scanning operations on documents.</summary>
+    class DocumentScanner : IScanner<Document>
     {
         public void Scan(Document d)
         {
@@ -131,8 +136,8 @@ namespace Solid
         }
     }
 
-    // DocumentFax capable to perform printing operations on documents.
-    class DocumentFax : Fax<Document>
+    /// <summary>Class <c>DocumentFax</c> capable to perform fax operations on documents.</summary>
+    class DocumentFax : IFax<Document>
     {
         public void Fax(Document d)
         {
@@ -140,8 +145,8 @@ namespace Solid
         }
     }
 
-    // MultiFunctionDocumentPrinterEnhanced capable to perform multiple operations on documents.
-    class MultiFunctionDocumentPrinterEnhanced : MultiFunctionPrinter<Document>
+    /// <summary>Class <c>MultiFunctionDocumentPrinterEnhanced</c> capable to perform multiple operations on documents.</summary>
+    class MultiFunctionDocumentPrinterEnhanced : IMultiFunctionPrinter<Document>
     {
         public void Print(Document d)
         {
@@ -157,8 +162,8 @@ namespace Solid
         }
     }
 
-    // MultiFunctionDocumentPrinterDelegated capable to delegate certain functionalities to other classes. (Decorator)
-    class MultiFunctionDocumentPrinterDelegated : MultiFunctionPrinter<Document>
+    /// <summary>Class <c>MultiFunctionDocumentPrinterDelegated</c> capable to delegate certain functionalities to other classes (Decorator).</summary>
+    class MultiFunctionDocumentPrinterDelegated : IMultiFunctionPrinter<Document>
     {
         private DocumentPrinter printer;
         private DocumentScanner scanner;
