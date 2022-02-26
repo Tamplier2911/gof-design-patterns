@@ -1,8 +1,12 @@
 namespace Solid
 {
-    // O - Open-Closed (open for extension, closed for modification)
-    // 1. classes, modules, functions should be open for extension, but closed for modification
-    // 2. such an entity can allow its behaviour to be extended without modifying its source code
+    ///
+    /// <summary>
+    /// Class <c>OpenClosed</c> represents Open-Closed principle usecase.
+    /// 1. classes, modules, functions should be open for extension, but closed for modification
+    /// 2. such an entity can allow its behaviour to be extended without modifying its source code
+    /// </summary>
+    ///
     class OpenClosed
     {
         public static void Run()
@@ -50,19 +54,19 @@ namespace Solid
         }
     }
 
-    // Color enum - represents available colors.
+    /// <summary>Class <c>Color</c> represents available colors.</summary>
     public enum Color
     {
         Red, Green, Blue
     }
 
-    // Size enum - represents available sizes.
+    /// <summary>Class <c>Size</c>  represents available sizes</summary>
     public enum Size
     {
         Small, Medium, Large
     }
 
-    // Product - represents product model.
+    /// <summary>Class <c>Product</c> represents product entity.</summary>
     public class Product
     {
         public string Name;
@@ -77,12 +81,12 @@ namespace Solid
         }
     }
 
-    // ProductFilter - concerned about filtering products by certain criteria.
+    /// <summary>Class <c>ProductFilter</c> concerned about filtering products by certain criteria.</summary>
     public class ProductFiler
     {
         // Coming back to modify filter class every time business rules change would violate Open-Closed principle.
 
-        // Filter products by size.
+        /// <summary>Method <c>FilterBySize</c> filter products by size.</summary>
         public IEnumerable<Product> FilterBySize(IEnumerable<Product> products, Size size)
         {
             foreach (var p in products)
@@ -94,7 +98,7 @@ namespace Solid
             }
         }
 
-        // Filter products by color.
+        /// <summary>Method <c>FilterByColor</c> filter products by color.</summary>
         public IEnumerable<Product> FilterByColor(IEnumerable<Product> products, Color color)
         {
             foreach (var p in products)
@@ -106,24 +110,22 @@ namespace Solid
             }
         }
 
-        // Filter products by size and color...
+        /// <summary>Method <c>FilterByColor</c> filter products by size and color...</summary>
     }
 
-    // Specification pattern to the resque.
-
-    // ISpecification - defines specification interface.
+    /// <summary>Interface <c>ISpecification</c> defines specification interface.</summary>
     public interface ISpecification<T>
     {
         bool IsSatisfied(T t);
     }
 
-    // IFilter - defines filter interface.
+    /// <summary>Interface <c>IFilter</c> defines filter interface.</summary>
     public interface IFilter<T>
     {
         IEnumerable<T> Filter(IEnumerable<T> items, ISpecification<T> spec);
     }
 
-    // ColorSpecification - implements specification interface.
+    /// <summary>Class <c>ColorSpecification</c> implements specification interface.</summary>
     public class ColorSpecification : ISpecification<Product>
     {
         private Color color;
@@ -137,7 +139,7 @@ namespace Solid
         }
     }
 
-    // SizeSpecification - implements specification interface.
+    /// <summary>Class <c>SizeSpecification</c> implements specification interface.</summary>
     public class SizeSpecification : ISpecification<Product>
     {
         private Size size;
@@ -151,7 +153,7 @@ namespace Solid
         }
     }
 
-    // AndSpecification - implements specification interface as well implements combinator of specifications.
+    /// <summary>Class <c>AndSpecification</c> implements specification interface as well implements combinator of specifications.</summary>
     public class AndSpecification<T> : ISpecification<T>
     {
         private ISpecification<T> first, second;
@@ -168,8 +170,7 @@ namespace Solid
         }
     }
 
-
-    // ProductFilterEnhanced - concerned about filtering products by certain criteria utilizing open-closed principle.
+    /// <summary>Class <c>ProductFilterEnhanced</c> concerned about filtering products by certain criteria utilizing open-closed principle.</summary>
     public class ProductFilterEnhanced : IFilter<Product>
     {
         public IEnumerable<Product> Filter(IEnumerable<Product> items, ISpecification<Product> spec)

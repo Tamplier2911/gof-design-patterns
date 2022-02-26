@@ -10,7 +10,7 @@ namespace Flyweight
     {
         public static void Run()
         {
-            Console.WriteLine("\nFlyweight\n");
+            Console.WriteLine("\nFlyweight");
 
             // extrinsic state
             const string _blueColor = "blue";

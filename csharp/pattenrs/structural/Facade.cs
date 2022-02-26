@@ -10,7 +10,7 @@ namespace Facade
     {
         public static void Run()
         {
-            Console.WriteLine("\nFacade\n");
+            Console.WriteLine("\nFacade");
 
             // Facade - IDE
 

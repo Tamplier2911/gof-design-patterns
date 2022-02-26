@@ -3,23 +3,26 @@ using System.Text;
 
 namespace Factories
 {
-    // Factories: are components responsible solely for the wholesale (not piecewise) creation of objects.
-    //
-    // Motivation:
-    // Object creation logic becomes too convoluted.
-    // Constructor is not descriptive:
-    // - name mandated by name of constructing type
-    // - cannot overload with same sets of arguments with different names
-    // - can turn into 'optional parameter hell'
-    // Object creation (non-piecewise, unlike Builder) can be outsourced to:
-    // - separate function (Factory Method)
-    // - separate class (Factory)
-    // - can be hierarchy of factories (Abstract Factory)
+    ///
+    /// <summary>
+    /// Class <c>Main</c> represents Factories patterns usecase.
+    /// Factories: are components responsible solely for the wholesale (not piecewise) creation of objects.
+    /// Object creation logic becomes too convoluted.
+    /// Constructor is not descriptive:
+    /// - name mandated by name of constructing type
+    /// - cannot overload with same sets of arguments with different names
+    /// - can turn into 'optional parameter hell'
+    /// Object creation (non-piecewise, unlike Builder) can be outsourced to:
+    /// - separate function (Factory Method)
+    /// - separate class (Factory)
+    /// - can be hierarchy of factories (Abstract Factory)
+    /// </summary>
+    ///
     class Main
     {
         public static void Run()
         {
-            Console.WriteLine("\nFactories\n");
+            Console.WriteLine("\nFactories");
 
             // factory method
             var p1 = PointOne.NewCartesianPoint(5.0, 5.0);
@@ -58,12 +61,9 @@ namespace Factories
         }
     }
 
-    // 
+    // -- Factory Method
 
-    // Factory Method
-
-    //
-
+    /// <summary>Class <c>PointOne</c> represents point entity.</summary>
     class PointOne
     {
         private double x, y;
@@ -91,11 +91,9 @@ namespace Factories
         }
     }
 
-    // 
+    // -- Factory - separation of concerns (object construction and object behaviour)
 
-    // Factory - separation of concerns (object construction and object behaviour)
-
-    // 
+    /// <summary>Class <c>PointTwo</c> represents point entity.</summary>
 
     class PointTwo
     {
@@ -108,6 +106,7 @@ namespace Factories
         }
     }
 
+    /// <summary>Class <c>PointTwoFactory</c> represents point factory.</summary>
     class PointTwoFactory
     {
         public static PointTwo NewCartesianPoint(double x, double y)
@@ -121,12 +120,9 @@ namespace Factories
         }
     }
 
-    //
+    // -- Inner Factory - if class constraint should be private, it may contain inner factory
 
-    // Inner Factory - if class constraint should be private, it may contain inner factory
-
-    //
-
+    /// <summary>Class <c>PointThree</c> represents point factory.</summary>
     class PointThree
     {
         private double x, y;
@@ -152,17 +148,15 @@ namespace Factories
         }
     }
 
-    // 
+    // -- Abstract Factory - returns abstract classes or interfaces, group object factories that have a common theme.
 
-    // Abstract Factory - returns abstract classes or interfaces, group object factories that have a common theme.
-
-    //
-
+    /// <summary>Interface <c>IHotDrink</c> describes hot drink interface.</summary>
     public interface IHotDrink
     {
         void Consume();
     }
 
+    /// <summary>Class <c>Tea</c> represents tea entity.</summary>
     internal class Tea : IHotDrink
     {
         private string Kind;
@@ -170,6 +164,7 @@ namespace Factories
         public void Consume() { Console.WriteLine($"consuming drink: {Kind}"); }
     }
 
+    /// <summary>Class <c>Coffee</c> represents coffee entity.</summary>
     internal class Coffee : IHotDrink
     {
         private string Kind;
@@ -177,11 +172,13 @@ namespace Factories
         public void Consume() { Console.WriteLine($"consuming drink: {Kind}"); }
     }
 
+    /// <summary>Interface <c>IHotDrinkFactory</c> represents hot drink factory.</summary>
     interface IHotDrinkFactory
     {
         IHotDrink Prepare(string kind);
     }
 
+    /// <summary>Class <c>TeaFactory</c> represents tea factory.</summary>
     internal class TeaFactory : IHotDrinkFactory
     {
         public IHotDrink Prepare(string kind)
@@ -190,6 +187,7 @@ namespace Factories
         }
     }
 
+    /// <summary>Class <c>CoffeeFactory</c> represents coffee factory.</summary>
     internal class CoffeeFactory : IHotDrinkFactory
     {
         public IHotDrink Prepare(string kind)
@@ -198,6 +196,7 @@ namespace Factories
         }
     }
 
+    /// <summary>Class <c>HotDrinkMachine</c> represents hot drink machine.</summary>
     public class HotDrinkMachine
     {
         private List<(string, IHotDrinkFactory)> factories = new();
@@ -235,12 +234,9 @@ namespace Factories
         }
     }
 
-    // 
+    // -- Asynchronous Factory Method - cannot perform asynchronous action inside of the constructor.
 
-    // Asynchronous Factory Method - cannot perform asynchronous action inside of the constructor.
-
-    //  
-
+    /// <summary>Class <c>Note</c> represents note entity.</summary>
     class Note
     {
         private Note()
@@ -266,35 +262,36 @@ namespace Factories
         }
     }
 
-    // 
+    // -- Factory: Object Tracking & Bulk Replacement
 
-    // Factory: Object Tracking & Bulk Replacement
-
-    // 
-
+    /// <summary>Interface <c>ITheme</c> describes theme.</summary>
     interface ITheme
     {
         string TextColor { get; }
         string BGColor { get; }
     }
 
+    /// <summary>Class <c>LightTheme</c> represents light theme entity.</summary>
     class LightTheme : ITheme
     {
         public string TextColor => "#222";
         public string BGColor => "#fff";
     }
 
+    /// <summary>Class <c>DarkTheme</c> represents dark theme entity.</summary>
     class DarkTheme : ITheme
     {
         public string TextColor => "#ffe";
         public string BGColor => "#444";
     }
 
+    /// <summary>Enum <c>ThemeColor</c> represents color entity.</summary>
     enum ThemeColor
     {
         LightTheme, DarkTheme
     }
 
+    /// <summary>Class <c>TrackingThemeFactory</c> represents theme factory.</summary>
     class TrackingThemeFactory
     {
         private readonly List<WeakReference<ITheme>> refs = new();
@@ -333,6 +330,7 @@ namespace Factories
         }
     }
 
+    /// <summary>Class <c>Ref</c> represents reference entity.</summary>
     class Ref<T> where T : class
     {
         public T Value;
@@ -342,6 +340,7 @@ namespace Factories
         }
     }
 
+    /// <summary>Class <c>ReplaceableThemeFactory</c> represents theme factory.</summary>
     class ReplaceableThemeFactory
     {
         private readonly List<WeakReference<Ref<ITheme>>> refs = new();

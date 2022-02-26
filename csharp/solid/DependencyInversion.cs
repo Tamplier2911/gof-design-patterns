@@ -1,8 +1,12 @@
 namespace Solid
 {
-    // Dependency Inversion 
-    // 1. high-level modules should not import anything from low-level modules, both should depend on abstractions
-    // 2. abstractions should not depend on details, details (concrete implementations) should depend on abstractions
+    ///
+    /// <summary>
+    /// Class <c>DependencyInversion</c> represents dependency inversion principle usecase.
+    /// 1. high-level modules should not import anything from low-level modules, both should depend on abstractions
+    /// 2. abstractions should not depend on details, details (concrete implementations) should depend on abstractions
+    /// </summary>
+    ///
     class DependencyInversion
     {
         public static void Run()
@@ -23,7 +27,7 @@ namespace Solid
         }
     }
 
-    // Chore - represents chore entity.
+    /// <summary>Class <c>Chore</c> represents chore entity.</summary>
     class Chore
     {
         private string ChoreDescription;
@@ -48,14 +52,14 @@ namespace Solid
         }
     }
 
-    // IAssignable - represents assignable interface.
+    /// <summary>Interface <c>IAssignable</c> represents assignable interface.</summary>
     interface IAssignable
     {
         string Name { get; set; }
         bool Work();
     }
 
-    // Person - represents person entity.
+    /// <summary>Class <c>Person</c> represents person entity.</summary>
     class Person : IAssignable
     {
         public string Name { get; set; }
@@ -71,7 +75,7 @@ namespace Solid
         }
     }
 
-    // Robot - represents robot entity.
+    /// <summary>Robot <c>Person</c> represents robot entity.</summary>
     class Robot : IAssignable
     {
         public string Name { get; set; }

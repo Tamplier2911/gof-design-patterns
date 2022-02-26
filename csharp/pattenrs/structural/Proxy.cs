@@ -12,7 +12,7 @@ namespace Proxy
     {
         public static void Run()
         {
-            Console.WriteLine("\nProxy\n");
+            Console.WriteLine("\nProxy");
 
             // init subject
             var book = new Book("Plague", new List<string>() {

@@ -11,7 +11,7 @@ namespace Bridge
     {
         public static void Run()
         {
-            Console.WriteLine("\nBridge\n");
+            Console.WriteLine("\nBridge");
 
             // initialize concreate implementors
             var rrn = new RasterRenderer();

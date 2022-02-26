@@ -29,11 +29,11 @@ GOF Design Patterns implementation in variety of programming languages.
 4.  [x] Decorator [C#] [Go]
 5.  [x] Facade [C#] [Go]
 6.  [x] Flyweight [C#] [Go]
-7.  [ ] Proxy [C#] [Go]
+7.  [x] Proxy [C#] [Go]
 
 ### Behavioral
 
-1.  [ ] Chain of responsibility [C#] [Go]
+1.  [x] Chain of Responsibility [C#] [Go]
 2.  [ ] Command [C#] [Go]
 3.  [ ] Interpreter [C#] [Go]
 4.  [ ] Iterator [C#] [Go]

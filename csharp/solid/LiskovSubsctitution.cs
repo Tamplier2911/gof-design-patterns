@@ -1,8 +1,12 @@
 namespace Solid
 {
-    // L - Liskov Substitution (ability to substitute base-type with sub-type)
-    // "Let (x) be a property provable about objects x of type T.
-    // Then (y) should be true for objects y of type S where S is a subtype of T."
+    ///
+    /// <summary>
+    /// Class <c>LiskovSubstitution</c> represents Liskov Substitution principle usecase.
+    /// "Let (x) be a property provable about objects x of type T.
+    /// Then (y) should be true for objects y of type S where S is a subtype of T."
+    /// </summary>
+    ///
     class LiskovSubstitution
     {
         static public int GetArea(Rectangle r) => r.Width * r.Height;
@@ -22,7 +26,7 @@ namespace Solid
         }
     }
 
-    // Rectangle represents basic rectangle.
+    /// <summary>Class <c>Rectangle</c> represents basic rectangle.</summary>
     class Rectangle
     {
 
@@ -44,7 +48,7 @@ namespace Solid
         }
     }
 
-    // Square inherit from Reactangle.
+    /// <summary>Class <c>Square</c> inherit from Reactangle.</summary>
     class Square : Rectangle
     {
 

@@ -14,7 +14,7 @@ namespace Decorator
     {
         public static void Run()
         {
-            Console.WriteLine("\nDecorator\n");
+            Console.WriteLine("\nDecorator");
 
             // Decorator
 

@@ -9,7 +9,7 @@ namespace Adapter
     {
         public static void Run()
         {
-            Console.WriteLine("\nAdapter\n");
+            Console.WriteLine("\nAdapter");
 
             // initialize client
             var pr = new ImagePrinter();

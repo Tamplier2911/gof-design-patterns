@@ -2,17 +2,21 @@ using System.Text;
 
 namespace Builder
 {
-    // Builder: when piecewise object construction is complicated provides an API for doing it succinctly.
-    //
-    // Motivation:
-    // Some objects are simple and can be created within a single constructor call.
-    // Some isn't, having object with a dozen constructor arguments is not productive.
-    // Builder provides API for constructing objects step by step.
+    ///
+    /// <summary>
+    /// Class <c>Main</c> represents Builder pattern usecase.
+    /// Builder: when piecewise object construction is complicated provides an API for doing it succinctly.
+    /// Motivation:
+    /// Some objects are simple and can be created within a single constructor call.
+    /// Some isn't, having object with a dozen constructor arguments is not productive.
+    /// Builder provides API for constructing objects step by step.
+    /// </summary>
+    ///
     class Main
     {
         public static void Run()
         {
-            Console.WriteLine("\nBuilder\n");
+            Console.WriteLine("\nBuilder");
 
             // regular builder with fluent interface
             var cb = new CodeBuilder("Person").
@@ -58,11 +62,9 @@ namespace Builder
         }
     }
 
-    //
+    // -- Basic Builder with fluent interface.
 
-    // Basic Builder with fluent interface.
-
-    //
+    /// <summary>Class <c>CodeBuilder</c> represents builder pattern usecase.</summary>
 
     class CodeBuilder
     {
@@ -101,12 +103,9 @@ namespace Builder
         }
     }
 
-    //
+    // -- Fluent Interface and Inheritance - handled with recursive generics
 
-    // Fluent Interface and Inheritance - handled with recursive generics
-
-    // 
-
+    /// <summary>Class <c>PersonBuilder</c> represents builder pattern usecase abstraction.</summary>
     abstract class PersonBuilder
     {
         protected Person p = new Person();
@@ -117,6 +116,7 @@ namespace Builder
         }
     }
 
+    /// <summary>Class <c>PersonInfoBuilder</c> represents builder pattern concreate usecase.</summary>
     class PersonInfoBuilder<SELF> : PersonBuilder
     where SELF : PersonInfoBuilder<SELF> // recursive generics
     {
@@ -127,6 +127,7 @@ namespace Builder
         }
     }
 
+    /// <summary>Class <c>PersonJobBuilder</c> represents builder pattern concreate usecase.</summary>
     class PersonJobBuilder<SELF> : PersonInfoBuilder<PersonJobBuilder<SELF>>
     where SELF : PersonJobBuilder<SELF> // recursive generics
     {
@@ -137,6 +138,7 @@ namespace Builder
         }
     }
 
+    /// <summary>Class <c>Person</c> represents person entity.</summary>
     class Person
     {
         public string? Name;
@@ -154,29 +156,31 @@ namespace Builder
         }
     }
 
-    //
+    // -- Stepwise Builder
 
-    // Stepwise Builder
-
-    //
-
+    /// <summary>Enum <c>CarType</c> represents car types.</summary>
     public enum CarType { Sedan, Crossover }
 
+    /// <summary>Interface <c>ISpecifyCarType</c> describes car type specification.</summary>
     interface ISpecifyCarType
     {
         ISpecifyWheelSize OfType(CarType type);
     }
 
+    /// <summary>Interface <c>ISpecifyWheelSize</c> describes car size specification.</summary>
     interface ISpecifyWheelSize
     {
         IBuildCar WithWheels(int size);
     }
 
+
+    /// <summary>Interface <c>IBuildCar</c> describes car builder.</summary>
     interface IBuildCar
     {
         public Car Build();
     }
 
+    /// <summary>Class <c>CarBuilder</c> represents car builder.</summary>
     class CarBuilder
     {
         private class Implement : ISpecifyCarType, ISpecifyWheelSize, IBuildCar
@@ -213,6 +217,7 @@ namespace Builder
         }
     }
 
+    /// <summary>Class <c>Car</c> represents car entity.</summary>
     class Car
     {
         public CarType Type;
@@ -224,11 +229,9 @@ namespace Builder
         }
     }
 
-    //
+    // -- Functional Builder
 
-    // Functional Builder
-
-    //
+    /// <summary>Class <c>FunctionalBuilder</c> represents functional builder abstraction.</summary>
 
     public abstract class FunctionalBuilder<TSubject, TSelf>
     where TSubject : new()
@@ -247,16 +250,19 @@ namespace Builder
         }
     }
 
+    /// <summary>Class <c>CatBuilder</c> represents cat builder.</summary>
     public sealed class CatBuilder : FunctionalBuilder<Cat, CatBuilder>
     {
         public CatBuilder Called(string name) => Do(c => c.Name = name);
     }
 
+    /// <summary>Class <c>CatBuilderExtansions</c> represents cat builder extensions.</summary>
     public static class CatBuilderExtansions
     {
         public static CatBuilder Likes(this CatBuilder builder, string hobby) => builder.Do(c => c.Hobby = hobby);
     }
 
+    /// <summary>Class <c>Cat</c> represents cat entity.</summary>
     public class Cat
     {
         public string? Name, Hobby;
@@ -267,12 +273,9 @@ namespace Builder
         }
     }
 
-    //
+    // -- Faceted Builder 
 
-    // Faceted Builder 
-
-    //
-
+    /// <summary>Class <c>EmployeeBuilder</c> represents employee builder.</summary>
     public class EmployeeBuilder
     {
         // !all builders use same reference
@@ -283,6 +286,7 @@ namespace Builder
         public Employee Build() => employee;
     }
 
+    /// <summary>Class <c>EmployeeAddressBuilder</c> represents employee address builder.</summary>
     public class EmployeeAddressBuilder : EmployeeBuilder
     {
         public EmployeeAddressBuilder(Employee e)
@@ -310,7 +314,7 @@ namespace Builder
         }
     }
 
-    // EmployeeJobBuilder - builds employee job information.
+    /// <summary>Class <c>EmployeeJobBuilder</c> represents employee job builder.</summary>
     public class EmployeeJobBuilder : EmployeeBuilder
     {
         public EmployeeJobBuilder(Employee e)
@@ -332,6 +336,7 @@ namespace Builder
         }
     }
 
+    /// <summary>Class <c>Employee</c> represents employee entity.</summary>
     public class Employee
     {
         // address

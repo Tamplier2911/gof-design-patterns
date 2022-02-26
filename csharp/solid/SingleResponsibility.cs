@@ -1,12 +1,15 @@
 namespace Solid
 {
-    // S - Single Responsibility (class should have one reason to change).
-    // 1. module, class or function should have responsibility over a single part of that program's functionality and it should encapsulate that part
-    // 2. all of that module, class or function's services should be narrowly aligned with that responsibility
-    // 3. separation of concerns - different classes handling different independent problems/tasks
+    ///
+    /// <summary>
+    /// Class <c>SingleResponsibility</c> represents Single Responsibility principle usecase.
+    /// 1. module, class or function should have responsibility over a single part of that program's functionality and it should encapsulate that part
+    /// 2. all of that module, class or function's services should be narrowly aligned with that responsibility
+    /// 3. separation of concerns - different classes handling different independent problems/tasks
+    /// </summary>
+    ///
     class SingleResponsibility
     {
-
         public static void Run()
         {
             Console.WriteLine("\nSingle Responsibility\n");
@@ -37,7 +40,7 @@ namespace Solid
         }
     }
 
-    // Journal class is only concerned about managing entries.
+    /// <summary>Class <c>Journal</c> class is only concerned about managing entries.</summary>
     class Journal
     {
         private readonly List<string> entries = new List<string>();
@@ -59,10 +62,11 @@ namespace Solid
             return string.Join(Environment.NewLine, entries);
         }
 
-        // Methods, that implement persistency would add more responsibility...
+        /// <summary>Method <c>StoreEntry</c> would implement persistency, 
+        /// which would add more responsibility...</summary>
     }
 
-    // LocalRepository concerned about saving or loading text data to/from local files.
+    /// <summary>Class <c>LocalRepository</c> concerned only storing saving or retrieving text data to/from local files.</summary>
     class LocalRepository
     {
         private string Path;
