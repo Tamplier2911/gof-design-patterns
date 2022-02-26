@@ -1,11 +1,15 @@
 namespace Singleton
 {
-    // Singleton: restricts object creation for a class to only one instance.
-    //
-    // Motivation:  
-    // For some components it only makes sense to have single instance in the system. (Repository, Factory)
-    // When constructor call is expensive and we want to restrict it to a single call, provide every consumer with same instance.
-    // Prevent client from making any addion copies.
+    ///
+    /// <summary>
+    /// Class <c>Main</c> represents Singleton pattern usecase.
+    /// Singleton: restricts object creation for a class to only one instance.
+    /// Motivation:  
+    /// For some components it only makes sense to have single instance in the system. (Repository, Factory)
+    /// When constructor call is expensive and we want to restrict it to a single call, provide every consumer with same instance.
+    /// Prevent client from making any addion copies.
+    /// </summary>
+    ///
     class Main
     {
         public static void Run()
@@ -65,11 +69,13 @@ namespace Singleton
 
     // -- Singleton - ensures instance is only one
 
+    /// <summary>Interface <c>IDatabase</c> describes database.</summary>
     public interface IDatabase
     {
         string GetCityPopulation(string name);
     }
 
+    /// <summary>Class <c>SingletonDatabase</c> represents database.</summary>
     public class SingletonDatabase : IDatabase
     {
         private Dictionary<string, string> db;
@@ -105,6 +111,7 @@ namespace Singleton
 
     // -- Monostate - creates multiple instances that shares common state
 
+    /// <summary>Class <c>Monostate</c> represents singleton usecase.</summary>
     public class Monostate
     {
         // since fields are static, every new instance will share same state
@@ -131,6 +138,8 @@ namespace Singleton
     }
 
     // -- PerThread Singleton - restricts to have more than one instance of object per thread
+
+    /// <summary>Class <c>PerThreadSingleton</c> represents singleton usecase.</summary>
     public class PerThreadSingleton
     {
         private static ThreadLocal<PerThreadSingleton> threadInstance = new ThreadLocal<PerThreadSingleton>(() => new PerThreadSingleton());
@@ -143,6 +152,7 @@ namespace Singleton
 
     // -- Ambient Context
 
+    /// <summary>Class <c>BuildingContext</c> represents singleton usecase.</summary>
     public sealed class BuildingContext : IDisposable
     {
         private static Stack<BuildingContext> stack = new Stack<BuildingContext>();
@@ -170,6 +180,7 @@ namespace Singleton
         }
     }
 
+    /// <summary>Class <c>Building</c> represents building entity.</summary>
     public class Building
     {
         private List<Wall> Walls = new List<Wall>();
@@ -190,6 +201,7 @@ namespace Singleton
         }
     }
 
+    /// <summary>Class <c>Wall</c> represents wall entity.</summary>
     public class Wall
     {
         internal Point Start, End;
@@ -203,6 +215,7 @@ namespace Singleton
         }
     }
 
+    /// <summary>Point <c>Wall</c> represents point entity.</summary>
     public class Point
     {
         internal int x, y;

@@ -2,13 +2,13 @@ namespace ChainOfResponsibility
 {
     ///
     /// <summary>
-    /// Class <c>Main</c> Chain of Responsibility pattern usecase.
+    /// Class <c>Main</c> represents Chain of Responsibility pattern usecase.
     /// Chain of Responsibility: delegates commands to a chain of processing objects.
     /// Motivation:
-    /// helps to avoids hard-wiring the sender of a request to the receiver.
-    /// helps to have more than one object capable to handle particular request.
-    /// makes it possible to transfer a request to one of several objects without specifying exact one.
-    /// makes it possible to dynamically construct range of handler objects.
+    /// Helps to avoids hard-wiring the sender of a request to the receiver.
+    /// Helps to have more than one object capable to handle particular request.
+    /// Makes it possible to transfer a request to one of several objects without specifying exact one.
+    /// Makes it possible to dynamically construct range of handler objects.
     /// </summary>
     ///
     class Main
@@ -41,7 +41,7 @@ namespace ChainOfResponsibility
 
     // -- Handler Abstraction
 
-    /// <summary>Interface <c>IHandler</c> represents handler abstraction interface.</summary>
+    /// <summary>Interface <c>IHandler</c> describes handler abstraction interface.</summary>
     public interface IHandler
     {
         public IHandler SetNext(IHandler handler);
@@ -82,6 +82,7 @@ namespace ChainOfResponsibility
                 Console.WriteLine($"Withdraw {thousands / 1000} thousand");
                 cash = client.SetCash(dif);
             }
+            if (cash == 0) return;
             if (base.next != null)
             {
                 base.next.Handle(client);
@@ -177,7 +178,7 @@ namespace ChainOfResponsibility
 
     // -- Client
 
-    /// <summary>Interface <c>Client</c> represents client abstraction.</summary>
+    /// <summary>Interface <c>Client</c> describes client abstraction.</summary>
     public interface IClient
     {
         public int GetCash();

@@ -2,12 +2,16 @@ using System.Text.Json;
 
 namespace Prototype
 {
-    // Prototype: creates objects by cloning an existing object.
-    //
-    // Motivation:  
-    // Complicated objects are not designed from scratch - existing design being re-iterated
-    // An existing object partially or fully constructed is a Prototype
-    // We make a copy (deep clone) of the prototype and customized it - cloning must be convenient
+    ///
+    /// <summary>
+    /// Class <c>Main</c> represents Prototype pattern usecase.
+    /// Prototype: creates objects by cloning an existing object.
+    /// Motivation:  
+    /// Complicated objects are not designed from scratch - existing design being re-iterated
+    /// An existing object partially or fully constructed is a Prototype
+    /// We make a copy (deep clone) of the prototype and customized it - cloning must be convenient
+    /// </summary>
+    ///
     class Main
     {
         public static void Run()
@@ -62,6 +66,7 @@ namespace Prototype
 
     //
 
+    /// <summary>Class <c>PersonOne</c> represents person entity.</summary>
     public class PersonOne : ICloneable
     {
         public List<string> Names = new();
@@ -86,6 +91,7 @@ namespace Prototype
         }
     }
 
+    /// <summary>Class <c>AddressOne</c> represents address entity.</summary>
     public class AddressOne : ICloneable
     {
         public string City;
@@ -111,6 +117,7 @@ namespace Prototype
 
     //
 
+    /// <summary>Class <c>PersonTwo</c> represents person entity.</summary>
     public class PersonTwo
     {
         public List<string> Names = new();
@@ -135,6 +142,7 @@ namespace Prototype
         }
     }
 
+    /// <summary>Class <c>AddressTwo</c> represents address entity.</summary>
     public class AddressTwo
     {
         public string City;
@@ -162,6 +170,7 @@ namespace Prototype
 
     //
 
+    /// <summary>Interface <c>IDeepCopyable</c> describes copyable interface.</summary>
     public interface IDeepCopyable<T> where T : new() // start from blank
     {
         void CopyTo(T target); // copy internal state into target
@@ -173,6 +182,7 @@ namespace Prototype
         }
     }
 
+    /// <summary>Class <c>ExtensionMethods</c> represents extension methods.</summary>
     public static class ExtensionMethods
     {
         public static T DeepCopy<T>(this IDeepCopyable<T> item) where T : new() // with type specification
@@ -186,6 +196,7 @@ namespace Prototype
         }
     }
 
+    /// <summary>Class <c>PersonThree</c> represents person entity.</summary>
     public class PersonThree : IDeepCopyable<PersonThree>
     {
         public List<string> Names = new();
@@ -213,7 +224,7 @@ namespace Prototype
         }
     }
 
-    // AddressThree - represents person address.
+    /// <summary>Class <c>AddressThree</c> represents address entity.</summary>
     public class AddressThree : IDeepCopyable<AddressThree>
     {
         public string? City;
@@ -237,6 +248,7 @@ namespace Prototype
         }
     }
 
+    /// <summary>Class <c>Employee</c> represents employee entity, implements PersonThree and IDeepCopyable.</summary>
     public class Employee : PersonThree, IDeepCopyable<Employee>
     {
         public int Salary;
@@ -266,6 +278,7 @@ namespace Prototype
 
     //
 
+    /// <summary>Class <c>ExtensionMethods2</c> represents extension methods.</summary>
     public static class ExtensionMethods2
     {
         public static T DeepCopyJSON<T>(this T self)
@@ -274,6 +287,7 @@ namespace Prototype
         }
     }
 
+    /// <summary>Class <c>PersonFour</c> represents person entity.</summary>
     class PersonFour
     {
         public List<string> Names { get; set; }
@@ -292,6 +306,7 @@ namespace Prototype
         }
     }
 
+    /// <summary>Class <c>AddressFour</c> represents address entity.</summary>
     class AddressFour
     {
         public string City { get; set; }
