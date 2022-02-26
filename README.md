@@ -34,7 +34,7 @@ GOF Design Patterns implementation in variety of programming languages.
 ### Behavioral
 
 1.  [x] Chain of Responsibility [C#] [Go]
-2.  [ ] Command [C#] [Go]
+2.  [x] Command [C#] [Go]
 3.  [ ] Interpreter [C#] [Go]
 4.  [ ] Iterator [C#] [Go]
 5.  [ ] Mediator [C#] [Go]

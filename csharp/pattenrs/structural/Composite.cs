@@ -4,11 +4,15 @@ using System.Collections;
 
 namespace Composite
 {
-    // Composite: composes zero-or-more similar objects so that they can be manipulated as one object.
-    //
-    // Motivation:
-    // objects use other object members through inheritance and composition
-    // composite is used to treat individual objects and composite objects uniformly
+    ///
+    /// <summary>
+    /// Class <c>Main</c> represents Composite pattern usecase.
+    /// Composite: composes zero-or-more similar objects so that they can be manipulated as one object.
+    /// Motivation:
+    /// objects use other object members through inheritance and composition
+    /// composite is used to treat individual objects and composite objects uniformly
+    /// </summary>
+    ///
     class Main
     {
         public static void Run()
@@ -60,7 +64,7 @@ namespace Composite
 
     // -- Component
 
-    // Component - represents an abstraction for tree-structured file system components.
+    /// <summary>Class <c>Component</c> represents an abstraction for tree-structured file system components.</summary>
     public abstract class Component
     {
         public string Name;
@@ -76,7 +80,7 @@ namespace Composite
 
     // -- Composite
 
-    // Directory - represents composite, can contain multiple components.
+    /// <summary>Class <c>Directory</c> represents composite, can contain multiple components.</summary>
     public class Directory : Component
     {
         private List<Component> Children = new List<Component>();
@@ -113,7 +117,7 @@ namespace Composite
         }
     }
 
-    // File - represents leaf, cannot contain multiple components.
+    /// <summary>Class <c>File</c> represents leaf, cannot contain multiple components.</summary>
     public class File : Component
     {
         public File(string name) : base(name) { }
@@ -121,7 +125,7 @@ namespace Composite
 
     // -- Neural Network
 
-    // Neuron - represents composite, can be connected with multiple components.
+    /// <summary>Class <c>Neuron</c> represents composite, can be connected with multiple components</summary>
     public class Neuron : IEnumerable<Neuron>
     {
         public float value;
@@ -145,10 +149,10 @@ namespace Composite
         }
     }
 
-    // NeuronLayer - represents composite set of neurons, can be connected with components.
+    /// <summary>Class <c>NeuronLayer</c> represents composite set of neurons, can be connected with components.</summary>
     public class NeuronLayer : Collection<Neuron> { }
 
-    // ExtensionMethods - extend functionality of IEnumerable.
+    /// <summary>Class <c>ExtensionMethods</c> extend functionality of IEnumerable.</summary>
     public static class ExtensionMethods
     {
         public static void ConnectTo(this IEnumerable<Neuron> self, IEnumerable<Neuron> other)

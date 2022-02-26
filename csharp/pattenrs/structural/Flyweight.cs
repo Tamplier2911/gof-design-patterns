@@ -1,11 +1,14 @@
 namespace Flyweight
 {
-    // Flyweight: reduces the cost of creating and manipulating a large number of similar objects.
-    //
-    // Motivation:
-    // avoid redundancy when storing data (app using large amount of similar objects which turns into significant memory allocation)
-    // inner mutable state can be extracted from the class, which helps to replate inner state with a group of small shared objects
-    //
+    ///
+    /// <summary>
+    /// Class <c>Main</c> represents Flyweight pattern usecase.
+    /// Flyweight: reduces the cost of creating and manipulating a large number of similar objects.
+    /// Motivation:
+    /// avoid redundancy when storing data (app using large amount of similar objects which turns into significant memory allocation)
+    /// inner mutable state can be extracted from the class, which helps to replate inner state with a group of small shared objects
+    /// </summary>
+    ///
     class Main
     {
         public static void Run()
@@ -54,7 +57,7 @@ namespace Flyweight
 
     // -- Flyweight Abstraction
 
-    // Figure - represents flyweight abstraction.
+    /// <summary>Class <c>Figure</c> represents flyweight abstraction.</summary>
     public abstract class Figure
     {
         // lines and name - represents intrinsic state, which are specific for each figure.
@@ -71,7 +74,7 @@ namespace Flyweight
 
     // -- Concreate Flyweights
 
-    // SquareFigure - represents concreate flyweight implementation.
+    /// <summary>Class <c>SquareFigure</c> represents concreate flyweight implementation.</summary>
     public class SquareFigure : Figure
     {
         const string _square = "square";
@@ -91,7 +94,7 @@ namespace Flyweight
         }
     }
 
-    // TriangleFigure - represents concreate flyweight implementation.
+    /// <summary>Class <c>TriangleFigure</c> represents concreate flyweight implementation.</summary>
     public class TriangleFigure : Figure
     {
         const string _triangle = "triangle";
@@ -110,7 +113,7 @@ namespace Flyweight
         }
     }
 
-    // CustomFigure - represent concreate implementation of flyweight.
+    /// <summary>Class <c>CustomFigure</c> represents concreate flyweight implementation.</summary>
     public class CustomFigure : Figure
     {
         public CustomFigure(string name) : base(name) { }
@@ -125,7 +128,7 @@ namespace Flyweight
 
     // -- Flyweight Factory
 
-    // FigureFactory - represents flyweight factory.
+    /// <summary>Class <c>FigureFactory</c> represents flyweight factory.</summary>
     public class FigureFactory
     {
         private Dictionary<string, Figure> figures = new Dictionary<string, Figure>();
@@ -166,7 +169,7 @@ namespace Flyweight
 
     // -- Auxiliary Classes
 
-    // Line - represents part of figure.
+    /// <summary>Class <c>Line</c> represents part of figure.</summary>
     public class Line
     {
         private float x1, y1, x2, y2;

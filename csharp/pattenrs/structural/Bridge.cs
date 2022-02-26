@@ -1,12 +1,16 @@
 namespace Bridge
 {
-    // Bridge: decouples an abstraction from its implementation so that the two can vary independently.
-    //
-    // Motivation:
-    // Prevents a 'cartesian product' complexity explosion AxBxC scenario.
-    // shape: Circle, Square ...
-    // type:  Raster, Vector ...
-    // types: shape * type = RasterCircle, VectorCircle, RasterSquare, VectorSquare
+    ///
+    /// <summary>
+    /// Class <c>Main</c> represents Bridge pattern usecase.
+    /// Bridge: decouples an abstraction from its implementation so that the two can vary independently.
+    /// Motivation:
+    /// Prevents a 'cartesian product' complexity explosion AxBxC scenario.
+    /// shape: Circle, Square ...
+    /// type:  Raster, Vector ...
+    /// types: shape * type = RasterCircle, VectorCircle, RasterSquare, VectorSquare
+    /// </summary>
+    ///
     class Main
     {
         public static void Run()
@@ -29,7 +33,7 @@ namespace Bridge
 
     // -- Abstraction
 
-    // Shape - represents abstraction.
+    /// <summary>Class <c>Shape</c> represents abstraction.</summary>
     public abstract class Shape
     {
         protected IRenderer renderer;
@@ -51,7 +55,7 @@ namespace Bridge
 
     // -- Implementor
 
-    // IRenderer - represents implementor.
+    /// <summary>Interface <c>IRenderer</c> describes implementor.</summary>
     public interface IRenderer
     {
         public void RenderCircle(float radius);
@@ -60,7 +64,7 @@ namespace Bridge
 
     // -- Refined Abstraction
 
-    // Circle - represents refined abstraction, inherits from abstraction.
+    /// <summary>Class <c>Circle</c> represents refined abstraction, inherits from abstraction.</summary>
     public class Circle : Shape
     {
         private float radius;
@@ -77,7 +81,7 @@ namespace Bridge
         }
     }
 
-    // Square - represents refined abstraction, inherits from abstraction.
+    /// <summary>Class <c>Square</c> represents refined abstraction, inherits from abstraction.</summary>
     public class Square : Shape
     {
         private int side;
@@ -96,7 +100,7 @@ namespace Bridge
 
     // -- Concreate Implementor
 
-    // RasterRenderer - represents concrete implementor, inherits from implementor.
+    /// <summary>Class <c>RasterRenderer</c> represents concrete implementor, inherits from implementor.</summary>
     public class RasterRenderer : IRenderer
     {
         public RasterRenderer() { }
@@ -112,7 +116,7 @@ namespace Bridge
         }
     }
 
-    // VectorRenderer - represents concrete implementor, inherits from implementor.
+    /// <summary>Class <c>VectorRenderer</c> represents concrete implementor, inherits from implementor.</summary>
     public class VectorRenderer : IRenderer
     {
         public VectorRenderer() { }

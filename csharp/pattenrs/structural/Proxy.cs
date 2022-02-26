@@ -8,6 +8,18 @@ namespace Proxy
     // count references to an object or ensure thread-safe work with a real object - smart references
     // lazy loading, caching, logging
     //
+
+    ///
+    /// <summary>
+    /// Class <c>Main</c> represents Proxy pattern usecase.
+    /// Proxy: provides a placeholder for another object to control access, reduce cost, and reduce complexity.
+    /// Motivation:
+    /// controll access to expensive resource - virtual proxy
+    /// restrict access to the object depending on the policies of calling object - protection proxy
+    /// count references to an object or ensure thread-safe work with a real object - smart references
+    /// lazy loading, caching, logging
+    /// </summary>
+    ///
     class Main
     {
         public static void Run()
@@ -47,7 +59,7 @@ namespace Proxy
 
     // -- Subject
 
-    // IBook - represents abstraction (subject interface).
+    /// <summary>Interface <c>IBook</c> describes book (subject abstraction).</summary>
     public interface IBook
     {
         public string GetBookTitle();
@@ -56,7 +68,7 @@ namespace Proxy
 
     // -- Real Subject
 
-    // Book - represents real subject.
+    /// <summary>Class <c>Book</c> represents book (real subject).</summary>
     public class Book : IBook
     {
         private string title;
@@ -78,7 +90,7 @@ namespace Proxy
 
     // -- Proxy
 
-    // LoggerBookProxy - represents logger proxy.
+    /// <summary>Class <c>LoggerBookProxy</c> represents logger proxy.</summary>
     public class LoggerBookProxy : IBook
     {
         private IBook book;
@@ -99,7 +111,7 @@ namespace Proxy
         }
     }
 
-    // CacheBookProxy - represents virtual proxy.
+    /// <summary>Class <c>CacheBookProxy</c> represents virtual proxy.</summary>
     public class CacheBookProxy : IBook
     {
         private IBook book;
@@ -131,7 +143,7 @@ namespace Proxy
         }
     }
 
-    // PreviewBookProxy - represent protection proxy.
+    /// <summary>Class <c>PreviewBookProxy</c> represent protection proxy.</summary>
     public class PreviewBookProxy : IBook
     {
         private IBook book;
@@ -153,7 +165,7 @@ namespace Proxy
 
     // -- Client
 
-    // Student - represents client that going to use subject.
+    /// <summary>Class <c>Student</c> represents client that going to use subject.</summary>
     public class Student
     {
         private string name;

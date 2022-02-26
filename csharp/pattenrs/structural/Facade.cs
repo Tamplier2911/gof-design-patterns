@@ -1,11 +1,15 @@
 namespace Facade
 {
-    // Facade: provides a simplified interface to a large body of code.
-    //
-    // Motivation:
-    // provide simple API for complicated underlying systems
-    // allows to define one point of interaction between the client and complex system
-    // reduce the number of dependencies between the client and a complex system
+    ///
+    /// <summary>
+    /// Class <c>Main</c> represents Facade pattern usecase.
+    /// Facade: provides a simplified interface to a large body of code.
+    /// Motivation:
+    /// provide simple API for complicated underlying systems
+    /// allows to define one point of interaction between the client and complex system
+    /// reduce the number of dependencies between the client and a complex system
+    /// </summary>
+    ///
     class Main
     {
         public static void Run()
@@ -32,14 +36,14 @@ namespace Facade
 
     // -- Complex Underlying Systems
 
-    // ITextEditor - represents text editor interface.
+    /// <summary>Interface <c>ITextEditor</c> describes text editor.</summary>
     public interface ITextEditor
     {
         public string WriteText(string text);
         public string SaveText();
     }
 
-    // TextEditor - represents text editor.
+    /// <summary>Class <c>TextEditor</c> represents text editor.</summary>
     public class TextEditor : ITextEditor
     {
         private List<string> Stack = new List<string>();
@@ -58,13 +62,13 @@ namespace Facade
         }
     }
 
-    // ICompiler - represents Compiler interface.
+    /// <summary>Interface <c>ICompiler</c> describes compiler.</summary>
     public interface ICompiler
     {
         public string Compile(string code);
     }
 
-    // Compiler - represents code compiler.
+    /// <summary>Class <c>Compiler</c> represents code compiler.</summary>
     public class Compiler : ICompiler
     {
         public string Compile(string code)
@@ -73,13 +77,13 @@ namespace Facade
         }
     }
 
-    // IRuntime - represents Runtime interface.
+    /// <summary>Interface <c>IRuntime</c> describes runtime.</summary>
     public interface IRuntime
     {
         public string Execute(string bin);
     }
 
-    // Runtime - represents runtime.
+    /// <summary>Class <c>Runtime</c> represents runtime.</summary>
     public class Runtime : IRuntime
     {
         public string Execute(string bin)
@@ -88,13 +92,13 @@ namespace Facade
         }
     }
 
-    // IConsole - represents console interface.
+    /// <summary>Interface <c>IConsole</c> describes console.</summary>
     public interface IConsole
     {
         public void Output(string result);
     }
 
-    // IDEConsole - represents console.
+    /// <summary>Class <c>IDEConsole</c> represents console.</summary>
     public class IDEConsole : IConsole
     {
         public void Output(string result)
@@ -105,13 +109,13 @@ namespace Facade
 
     // -- Facade
 
-    // IDE - represents IDE interface.
+    /// <summary>Interface <c>IDE</c> describes IDE.</summary>
     public interface IDE
     {
         public void Run(string code);
     }
 
-    // IDEFacade - represents IDE, which lavarage complex underlying systems to provide simple API.
+    /// <summary>Class <c>IDEFacade</c> represents IDE, which lavarage complex underlying systems to provide simple API.</summary>
     public class IDEFacade : IDE
     {
         protected ITextEditor editor;
@@ -146,7 +150,7 @@ namespace Facade
 
     // -- Client
 
-    // Developer - represent client
+    /// <summary>Class <c>Developer</c> represents client.</summary>
     public class Developer
     {
         private IDE tool;
@@ -165,13 +169,13 @@ namespace Facade
 
     // -- Complex Underlying Systems
 
-    // IGenerator - represents slice generator interface.
+    /// <summary>Interface <c>IGenerator</c> describes magic square generator.</summary>
     public interface IGenerator
     {
         public List<int> Generate(int count);
     }
 
-    // Generator - generates random slice of integers.
+    /// <summary>Class <c>Generator</c> represents magic square generator.</summary>
     public class Generator : IGenerator
     {
         private static readonly Random random = new Random();
@@ -184,13 +188,13 @@ namespace Facade
         }
     }
 
-    // ISplitter - represents splitter interface.
+    /// <summary>Interface <c>ISplitter</c> describes splitter.</summary>
     public interface ISplitter
     {
         public List<List<int>> Split(List<List<int>> array);
     }
 
-    // Splitter - splits square matrix into individual parallel and diagonal pieces.
+    /// <summary>Class <c>Splitter</c> represents splitter.</summary>
     public class Splitter : ISplitter
     {
         public List<List<int>> Split(List<List<int>> array)
@@ -240,13 +244,13 @@ namespace Facade
         }
     }
 
-    // IVerifier - represents verifier interface.
+    /// <summary>Interface <c>IVerifier</c> describes verifier.</summary>
     public interface IVerifier
     {
         public bool Verify(List<List<int>> array);
     }
 
-    // Verifier - verifies that it is indeed a maginc square.
+    /// <summary>Class <c>Verifier</c> represents verifier.</summary>
     public class Verifier : IVerifier
     {
         public bool Verify(List<List<int>> array)
@@ -261,7 +265,7 @@ namespace Facade
 
     // -- Facade
 
-    // MagicSquareGenerator - represents facade, that leverage underlying systems to explode simple API.
+    /// <summary>Class <c>MagicSquareGenerator</c> represents facade, that leverage underlying systems to explode simple API.</summary>
     public class MagicSquareGenerator
     {
         private IGenerator generator;

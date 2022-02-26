@@ -2,14 +2,18 @@ using System.Text;
 
 namespace Decorator
 {
-    // Decorator: dynamically adds/overrides behaviour in an existing method of an object.
-    //
-    // Motivation:
-    // we want to augment the object with additional functionality but we don't want to alter existing code / opening class (OCP)
-    // we want to keep new functionality separete (SRP)
-    // we need to interact with existing structures
-    // -- inheritance (if class is not sealed)
-    // -- build decorator (else)
+    ///
+    /// <summary>
+    /// Class <c>Main</c> represents Decorator pattern usecase.
+    /// Decorator: dynamically adds/overrides behaviour in an existing method of an object.
+    /// Motivation:
+    /// we want to augment the object with additional functionality but we don't want to alter existing code / opening class (OCP)
+    /// we want to keep new functionality separete (SRP)
+    /// we need to interact with existing structures
+    /// -- inheritance (if class is not sealed)
+    /// -- build decorator (else)
+    /// </summary>
+    ///
     class Main
     {
         public static void Run()
@@ -39,7 +43,7 @@ namespace Decorator
 
     // -- Component
 
-    // Pizza - represents an abstraction (component).
+    /// <summary>Class <c>IHandler</c> represents an abstraction (component).</summary>
     public abstract class Pizza
     {
         internal string Origin { get; set; }
@@ -58,7 +62,7 @@ namespace Decorator
 
     // -- Concreate Component 
 
-    // ItalianPizza - represents concreate implementation of (component) Pizza.
+    /// <summary>Class <c>ItalianPizza</c> represents concreate implementation of (component) Pizza.</summary>
     public class ItalianPizza : Pizza
     {
         private const string _italian = "Italian";
@@ -80,7 +84,7 @@ namespace Decorator
         }
     }
 
-    // BulgarianPizza - represents concreate implementation of (component) Pizza.
+    /// <summary>Class <c>BulgarianPizza</c> represents concreate implementation of (component) Pizza.</summary>
     public class BulgarianPizza : Pizza
     {
         private const string _bulgarian = "Bulgarian";
@@ -104,7 +108,7 @@ namespace Decorator
 
     // -- Decorator
 
-    // PizzaDecorator - represents an abstraction for decorator.
+    /// <summary>Class <c>PizzaDecorator</c> represents an abstraction for decorator.</summary>
     public abstract class PizzaDecorator : Pizza
     {
         protected Pizza pizza; // reference to component SetComponent
@@ -120,7 +124,7 @@ namespace Decorator
 
     // -- Concreate Decorator
 
-    // TomatoPizza - represents concreate implementation of (decorator) PizzaDecorator.
+    /// <summary>Class <c>TomatoPizza</c> represents concreate implementation of (decorator) PizzaDecorator.</summary>
     public class TomatoPizza : PizzaDecorator
     {
         private const string _tomatoes = "Tomatoes";
@@ -142,7 +146,7 @@ namespace Decorator
         }
     }
 
-    // CheesePizza - represents concreate implementation of (decorator) PizzaDecorator.
+    /// <summary>Class <c>CheesePizza</c> represents concreate implementation of (decorator) PizzaDecorator.</summary>
     public class CheesePizza : PizzaDecorator
     {
         private const string _cheese = "Cheese";
