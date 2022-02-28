@@ -170,7 +170,7 @@ func (ff *FigureFactory) String() string {
 	return strings.Join(res, "\n")
 }
 
-// -- Auxiliary Types
+// -- Auxiliary types
 type Line struct {
 	x1, y1, x2, y2 float64
 }

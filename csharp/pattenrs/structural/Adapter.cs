@@ -1,10 +1,14 @@
 namespace Adapter
 {
-    // Adapter: allows classes with incompatible interfaces to work together by wrapping its own interface around that of an already existing class.
-    //
-    // Motivation:
-    // Every type cannot conform every possible interface.
-    // Adapter is a construct which dapats an existing interface X to conform to the required interface Y.
+    ///
+    /// <summary>
+    /// Class <c>Main</c> represents Adapter pattern usecase.
+    /// Adapter: allows classes with incompatible interfaces to work together by wrapping its own interface around that of an already existing class.
+    /// Motivation:
+    /// Every type cannot conform every possible interface.
+    /// Adapter is a construct which dapats an existing interface X to conform to the required interface Y.
+    /// </summary>
+    ///
     class Main
     {
         public static void Run()
@@ -70,7 +74,7 @@ namespace Adapter
 
     // -- Adapter
 
-    // VectorToRasterAdapter - represents vector to raster image adapter.
+    /// <summary>Class <c>VectorToRasterAdapter</c> represents vector to raster image adapter.</summary>
     public class VectorToRasterAdapter : IPrintable
     {
         private IPointsCache Cache;
@@ -143,7 +147,7 @@ namespace Adapter
 
     // -- Adaptee
 
-    // VectorImage - represents vector image, does not implements IPrintable.
+    /// <summary>Class <c>VectorImage</c> represents vector image, does not implements IPrintable.</summary>
     public class VectorImage
     {
         private List<Line> Lines = new List<Line>();
@@ -161,7 +165,7 @@ namespace Adapter
 
     // -- Target
 
-    // RasterImage - represents raster image, implements IPrintable interface.
+    /// <summary>Class <c>RasterImage</c> represents raster image, implements IPrintable interface.</summary>
     public class RasterImage : IPrintable
     {
         private List<Point> Points = new List<Point>();
@@ -179,13 +183,13 @@ namespace Adapter
 
     // -- Client
 
-    // IPrintable - describes interface required to print image.
+    /// <summary>Interface <c>IPrintable</c> describes requirements to print image.</summary>
     public interface IPrintable
     {
         public List<Point> GetPoints();
     }
 
-    // ImagePrinter - used to print images.
+    /// <summary>Class <c>ImagePrinter</c> used to print images.</summary>
     public class ImagePrinter
     {
         public void PrintImage(IPrintable rm)
@@ -246,7 +250,7 @@ namespace Adapter
 
     // -- Cache
 
-    // IPointsCache - represents points cache interface.
+    /// <summary>Interface <c>IPointsCache</c> describes points cache.</summary>
     public interface IPointsCache
     {
         public int GetSum(object o);
@@ -255,7 +259,7 @@ namespace Adapter
         public void Store(int sum, List<Point> points);
     }
 
-    // PointsCache - represents points cache.
+    /// <summary>Class <c>PointsCache</c> represents points cache.</summary>
     public class PointsCache : IPointsCache
     {
         private Dictionary<int, List<Point>> Cache = new Dictionary<int, List<Point>>();
@@ -287,7 +291,7 @@ namespace Adapter
 
     // -- Auxiliary classes
 
-    // Point - represents point.
+    /// <summary>Class <c>Point</c> represents point entity.</summary>
     public class Point
     {
         public int x, y;
@@ -299,7 +303,7 @@ namespace Adapter
         }
     }
 
-    // Line - represents line.
+    /// <summary>Class <c>Line</c> represents line entity.</summary>
     public class Line
     {
         public int x1, y1, x2, y2 = 0;
@@ -315,13 +319,13 @@ namespace Adapter
 
     // -- Generic Value Adapter (adapt literal value to a type)
 
-    // IDimension - represents dimension interface.
+    /// <summary>Interface <c>IDimension</c> describes dimension.</summary>
     public interface IDimension
     {
         int Value { get; }
     }
 
-    // Dimension - represents dimension types.
+    /// <summary>Class <c>Dimension</c> represents dimension types.</summary>
     public class Dimension
     {
         public class Two : IDimension
@@ -334,7 +338,7 @@ namespace Adapter
         }
     }
 
-    // Vector - represents generic vector class.
+    /// <summary>Vector <c>Dimension</c> represents generic vector class.</summary>
     public class Vector<TSelf, T, D>
     where D : IDimension, new()
     where TSelf : Vector<TSelf, T, D>, new()
@@ -400,7 +404,7 @@ namespace Adapter
         }
     }
 
-    // VectorOfInt - represents in-between class of integer vector.
+    /// <summary>Vector <c>VectorOfInt</c> represents in-between class of integer vector.</summary>
     public class VectorOfInt<TSelf, D> : Vector<TSelf, int, D>
     where D : IDimension, new()
     where TSelf : Vector<TSelf, int, D>, new()
@@ -424,14 +428,14 @@ namespace Adapter
         }
     }
 
-    // Vector2i - represents 2dimensional vector of integers.
+    /// <summary>Vector <c>Vector2i</c> represents 2dimensional vector of integers.</summary>
     public class Vector2i : VectorOfInt<Vector2i, Dimension.Two>
     {
         public Vector2i() { }
         public Vector2i(params int[] values) : base(values) { }
     }
 
-    // VectorOfFloat - represents in-between class of float vector.
+    /// <summary>Vector <c>VectorOfFloat</c> represents in-between class of float vector.</summary>
     public class VectorOfFloat<TSelf, D> : Vector<TSelf, float, D>
     where D : IDimension, new()
     where TSelf : Vector<TSelf, float, D>, new()
@@ -454,7 +458,7 @@ namespace Adapter
         }
     }
 
-    // Vector3f - represents 3dimensional vector of floats.
+    /// <summary>Vector <c>Vector3f</c> represents 3dimensional vector of floats.</summary>
     public class Vector3f : VectorOfFloat<Vector3f, Dimension.Three>
     {
         // now does not need to propagate constructor

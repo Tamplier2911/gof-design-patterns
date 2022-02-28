@@ -13,6 +13,7 @@ namespace Behavioral
             Console.WriteLine("\nBehavioral");
 
             ChainOfResponsibility.Main.Run();
+            Command.Main.Run();
         }
     }
 }
