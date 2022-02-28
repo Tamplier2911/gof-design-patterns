@@ -20,7 +20,7 @@ namespace Command
             var user = new User("User", "example@email.com");
 
             // init receiver
-            var receiver = new Account(user);
+            var receiver = new BankAccount(user);
 
             // init commands
             var deposit = new Deposit(receiver, 1000);
@@ -28,8 +28,10 @@ namespace Command
 
             // init invoker
             var invoker = new Terminal();
+
             Console.WriteLine($"Balance before deposit: {receiver.Balance}");
 
+            // invoke commands
             invoker.SetCommand(deposit);
             invoker.Run();
             Console.WriteLine($"Balance after deposit: {receiver.Balance}");
@@ -57,11 +59,11 @@ namespace Command
     /// <summary>Class <c>Deposit</c> represents concreate command.</summary>
     public class Deposit : Operation
     {
-        private readonly Account account;
+        private readonly BankAccount account;
         private readonly int amount;
         private bool isComplete;
 
-        public Deposit(Account account, int amount)
+        public Deposit(BankAccount account, int amount)
         {
             this.account = account;
             this.amount = amount;
@@ -86,10 +88,10 @@ namespace Command
     /// <summary>Class <c>Withdraw</c> represents concreate command.</summary>
     public class Withdraw : Operation
     {
-        private readonly Account account;
+        private readonly BankAccount account;
         private readonly int amount;
         private bool isComplete;
-        public Withdraw(Account account, int amount)
+        public Withdraw(BankAccount account, int amount)
         {
             this.account = account;
             this.amount = amount;
@@ -116,13 +118,13 @@ namespace Command
 
     // -- Receiver
 
-    /// <summary>Class <c>Account</c> represents receiver.</summary>
-    public class Account
+    /// <summary>Class <c>BankAccount</c> represents receiver.</summary>
+    public class BankAccount
     {
         public User owner;
         public int Balance { get; set; }
 
-        public Account(User user)
+        public BankAccount(User user)
         {
             owner = user;
             Balance = 0;
