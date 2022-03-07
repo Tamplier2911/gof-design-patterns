@@ -14,6 +14,7 @@ namespace Behavioral
 
             ChainOfResponsibility.Main.Run();
             Command.Main.Run();
+            Interpreter.Main.Run();
         }
     }
 }
