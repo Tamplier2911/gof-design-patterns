@@ -120,4 +120,26 @@ namespace Interpreter
             return left.Interpret(ctx) - right.Interpret(ctx);
         }
     }
+
+    public class ExpressionProcessor
+    {
+        public Dictionary<char, int> Variables = new Dictionary<char, int>();
+
+        /*
+            public int Calculate(string expression)
+            {
+                // todo
+                // "-" and "+"
+                // "1" and "111
+
+                // Expressions use integral values (e.g., "13" ), single-letter variables defined in Variables, as well as + and - operators only
+                // There is no need to support braces or any other operations
+                // If a variable is not found in "Variables" (or if we encounter a variable with >1 letter, e.g. ab), the evaluator returns 0 (zero)
+                // In case of any parsing failure, evaluator returns 0
+                // Calculate("1+2+3") should return 6
+                // Calculate("1+2+xy") should return 0
+                // Calculate("10-2-x") when x=3 is in "Variables" should return 5
+            }
+        */
+    }
 }
